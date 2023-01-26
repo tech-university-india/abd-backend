@@ -2,6 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const { PORT } = require('./config');
 
+require('dotenv').config();
+
 const app = express();
 
 app.use(morgan('dev'));
