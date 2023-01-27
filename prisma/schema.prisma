@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model action_items {
+  action_item_id Int    @id @unique @default(autoincrement())
+  content        String
+  is_done        Boolean   @default(false)
+  created_at     DateTime  @default(now()) 
+  due_date       DateTime? @updatedAt
+  jira_link      String?
+}
+
+model agenda_items {
+  agenda_item_id Int   @id @unique @default(autoincrement())
+  content        String
+  is_done        Boolean  @default(false)
+  created_at     DateTime @default(now()) 
+}
+
+model key_decisions {
+  key_decision_id Int   @id @unique @default(autoincrement())
+  content         String
+  created_at      DateTime @default(now()) 
+}
