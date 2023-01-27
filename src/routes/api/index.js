@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-// TODO: create or require api routes
+
+router.use('/action-items', require('./actionItems.routes'));
+// router.use('/key-decisions', require('./keyDecisions.routes'));
+// router.use('/agenda-items', require('./agendaItems.routes'));
+
 
 module.exports = router;
