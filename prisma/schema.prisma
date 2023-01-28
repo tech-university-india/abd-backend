@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PoNotes {
+model PoNote {
   noteId    Int       @unique @default(autoincrement())
   type      Type
   status    Status    @default(PENDING)
