@@ -10,27 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model action_items {
-  item_id         Int       @unique @default(autoincrement())
-  is_done    Boolean   @default(false)
-  content    String
-  jira_link  String?
-  created_at DateTime  @default(now())
-  due_date   DateTime?
-  isValid    Boolean   @default(true)
+model PoNotes {
+  noteId    Int       @unique @default(autoincrement())
+  type      Type
+  status    Status    @default(PENDING)
+  note      String
+  jiraLink  String?
+  createdAt DateTime  @default(now())
+  dueDate   DateTime?
+  deleted   Boolean   @default(false)
 }
 
-model key_decisions {
-  item_id         Int      @unique @default(autoincrement())
-  created_at DateTime @default(now())
-  content    String
-  isValid    Boolean  @default(true)
+enum Status {
+  COMPLETED
+  PENDING
 }
 
-model agenda_items {
-  item_id         Int      @unique @default(autoincrement())
-  content    String
-  is_done    Boolean  @default(false)
-  created_at DateTime @default(now())
-  isValid    Boolean  @default(true)
+enum Type {
+  ACTION_ITEM
+  KEY_DECISION
+  AGEND_ITEM
 }
