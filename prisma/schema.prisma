@@ -12,8 +12,8 @@ datasource db {
 
 model PoNote {
   noteId    Int       @unique @default(autoincrement())
-  type      Type
-  status    Status    @default(PENDING)
+  type      Type   // Enum - Type
+  status    Status    @default(PENDING)   // Enum - Status
   note      String
   jiraLink  String?
   createdAt DateTime  @default(now())
