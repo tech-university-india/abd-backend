@@ -1,18 +1,18 @@
 const router = require('express').Router();
 const {
-  listPoNotes,
-  createPoNote,
-  detailPoNote,
-  editPoNote,
-  deletePoNote
+  listPONotes,
+  createPONote,
+  detailPONote,
+  editPONote,
+  deletePONote
 } = require('../../controllers/poNotes.controller');
 
 
-router.get('', listPoNotes);
-router.post('', createPoNote);
+router.get('', listPONotes);
+router.post('', createPONote);
 
-router.get('/:id', detailPoNote);
-router.patch('/:id', editPoNote);
-router.delete('/:id', deletePoNote);
+router.get('/:id', detailPONote);
+router.patch('/:id', editPONote);
+router.delete('/:id', deletePONote);
 
 module.exports = router;

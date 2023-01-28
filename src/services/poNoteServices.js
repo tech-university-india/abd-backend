@@ -56,7 +56,7 @@ const getStatusQueryObject = (status) => {
   };
 };
 
-const getPoNotesByQuickFilter = async (
+const getPONotesByQuickFilter = async (
   type,
   startDate = null,
   endDate = null,
@@ -84,7 +84,7 @@ const getPoNotesByQuickFilter = async (
   return filterToDiffentTypes(items);
 };
 
-const getPoNoteByID = async (noteId) => {
+const getPONoteByID = async (noteId) => {
   const item = await prisma.PONote.findUnique({
     where: {
       noteId
@@ -93,7 +93,7 @@ const getPoNoteByID = async (noteId) => {
   return item?.deleted ? null : item;
 };
 
-const createValidPoNote = async (noteDetails) => {
+const createValidPONote = async (noteDetails) => {
   const dueDate = noteDetails.duedate;
   const type = noteDetails.type;
   const createdActionItem = await prisma.PONote.create({
@@ -110,7 +110,7 @@ const createValidPoNote = async (noteDetails) => {
   return createdActionItem;
 };
 
-const updatePoNoteById = async (noteId, data) => {
+const updatePONoteById = async (noteId, data) => {
 
   const item = await ifNoteExists(noteId) ?
     await prisma.PONote.update({
@@ -123,7 +123,7 @@ const updatePoNoteById = async (noteId, data) => {
   return item;
 };
 
-const softDeletePoNoteById = async (noteId) => {
+const softDeletePONoteById = async (noteId) => {
   const item = await ifNoteExists(noteId) ?
     await prisma.PONote.update({
       where: {
@@ -137,7 +137,7 @@ const softDeletePoNoteById = async (noteId) => {
   return item;
 };
 
-const hardDeletePoNoteById = async (noteId) => {
+const hardDeletePONoteById = async (noteId) => {
   const item = await ifNoteExists(noteId) ?
     await prisma.PONote.delete({
       where: {
@@ -149,10 +149,10 @@ const hardDeletePoNoteById = async (noteId) => {
 };
 
 module.exports = {
-  getPoNoteByID,
-  getPoNotesByQuickFilter,
-  createValidPoNote,
-  updatePoNoteById,
-  hardDeletePoNoteById,
-  softDeletePoNoteById
+  getPONoteByID,
+  getPONotesByQuickFilter,
+  createValidPONote,
+  updatePONoteById,
+  hardDeletePONoteById,
+  softDeletePONoteById
 };

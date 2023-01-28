@@ -7,15 +7,15 @@ const {
 } = require('../utils/prismaUtilis');
 
 const {
-  getPoNoteByID,
-  getPoNotesByQuickFilter,
-  createValidPoNote,
-  updatePoNoteById,
-  hardDeletePoNoteById,
-  softDeletePoNoteById
+  getPONoteByID,
+  getPONotesByQuickFilter,
+  createValidPONote,
+  updatePONoteById,
+  hardDeletePONoteById,
+  softDeletePONoteById
 } = require('../services/poNoteServices');
 
-const listPoNotes = async (req, res) => {
+const listPONotes = async (req, res) => {
   try {
 
     const type = getValidTypeEnum(req.query.type);
@@ -29,7 +29,7 @@ const listPoNotes = async (req, res) => {
     const status = getValidStatusEnum(req?.query?.status);
 
     const filteredNotes =
-      await getPoNotesByQuickFilter(
+      await getPONotesByQuickFilter(
         type,
         startDate,
         endDate,
@@ -49,7 +49,7 @@ const listPoNotes = async (req, res) => {
   }
 };
 
-const createPoNote = async (req, res) => {
+const createPONote = async (req, res) => {
   try {
 
     // optional
@@ -63,7 +63,7 @@ const createPoNote = async (req, res) => {
       getValidTypeEnum(req.body?.type) &&
       validDueDate
     ) ?
-      await createValidPoNote(req.body) :
+      await createValidPONote(req.body) :
       res.status(400).send({
         message: 'Bad Request - Invalid Input'
       });
@@ -79,12 +79,12 @@ const createPoNote = async (req, res) => {
   }
 };
 
-const detailPoNote = async (req, res) => {
+const detailPONote = async (req, res) => {
   try {
     const noteId = req.params.id;
 
     const resultNote = noteId ?
-      await getPoNoteByID(Number(noteId)) :
+      await getPONoteByID(Number(noteId)) :
       res.status(400).send({
         message: 'Bad Request - Invalid Input'
       });
@@ -104,7 +104,7 @@ const detailPoNote = async (req, res) => {
   }
 };
 
-const editPoNote = async (req, res) => {
+const editPONote = async (req, res) => {
   try {
     const noteId = req.params.id;
     const data = req.body;
@@ -114,7 +114,7 @@ const editPoNote = async (req, res) => {
     // // ------
 
     const updatedNote = data ?
-      await updatePoNoteById(Number(noteId), data) :
+      await updatePONoteById(Number(noteId), data) :
       res.status(400).send({
         message: 'Empty Note'
       });
@@ -134,7 +134,7 @@ const editPoNote = async (req, res) => {
   }
 };
 
-const deletePoNote = async (req, res) => {
+const deletePONote = async (req, res) => {
   try {
     const noteId = Number(req.params.id);
 
@@ -144,8 +144,8 @@ const deletePoNote = async (req, res) => {
     // ------
 
     const deletedNote = deleteType === 'hard' ?
-      await hardDeletePoNoteById(noteId) :
-      await softDeletePoNoteById(noteId);
+      await hardDeletePONoteById(noteId) :
+      await softDeletePONoteById(noteId);
 
     deletedNote ?
       res.status(204).send({
@@ -164,10 +164,10 @@ const deletePoNote = async (req, res) => {
 };
 
 module.exports = {
-  getPoNoteByID,
-  listPoNotes,
-  createPoNote,
-  detailPoNote,
-  editPoNote,
-  deletePoNote,
+  getPONoteByID,
+  listPONotes,
+  createPONote,
+  detailPONote,
+  editPONote,
+  deletePONote,
 };
