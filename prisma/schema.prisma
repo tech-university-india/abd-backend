@@ -15,7 +15,7 @@ model PONote {
   type      Type   // Enum - Type
   status    Status    @default(PENDING)   // Enum - Status
   note      String
-  jiraLink  String?
+  issueLink  String?
   createdAt DateTime  @default(now())
   dueDate   DateTime?
   deleted   Boolean   @default(false)
