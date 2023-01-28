@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model action_items {
+  item_id         Int       @unique @default(autoincrement())
+  is_done    Boolean   @default(false)
+  content    String
+  jira_link  String?
+  created_at DateTime  @default(now())
+  due_date   DateTime?
+  isValid    Boolean   @default(true)
+}
+
+model key_decisions {
+  item_id         Int      @unique @default(autoincrement())
+  created_at DateTime @default(now())
+  content    String
+  isValid    Boolean  @default(true)
+}
+
+model agenda_items {
+  item_id         Int      @unique @default(autoincrement())
+  content    String
+  is_done    Boolean  @default(false)
+  created_at DateTime @default(now())
+  isValid    Boolean  @default(true)
+}
