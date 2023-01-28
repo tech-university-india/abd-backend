@@ -10,12 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PoNote {
+model PONote {
   noteId    Int       @unique @default(autoincrement())
   type      Type   // Enum - Type
   status    Status    @default(PENDING)   // Enum - Status
   note      String
-  jiraLink  String?
+  issueLink  String?
   createdAt DateTime  @default(now())
   dueDate   DateTime?
   deleted   Boolean   @default(false)
