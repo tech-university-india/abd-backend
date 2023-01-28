@@ -24,6 +24,7 @@ model PONote {
 enum Status {
   COMPLETED
   PENDING
+  NONE
 }
 
 enum Type {
