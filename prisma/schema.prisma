@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model PoNote {
+model PONote {
   noteId    Int       @unique @default(autoincrement())
   type      Type   // Enum - Type
   status    Status    @default(PENDING)   // Enum - Status
