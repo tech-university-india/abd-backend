@@ -2,8 +2,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 const {
-  filterToDiffentTypes
-} = require('../utils/prismaUtilis');
+  filterToDifferentTypes
+} = require('../utils/prismaUtils');
 
 const ifNoteExists = async (noteId) => {
   const item = await prisma.PONote.findUnique({
@@ -81,7 +81,7 @@ const getPONotesByQuickFilter = async (
     ...paginationObj
   }
   );
-  return filterToDiffentTypes(items);
+  return filterToDifferentTypes(items);
 };
 
 const getPONoteByID = async (noteId) => {
