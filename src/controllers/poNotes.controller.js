@@ -1,10 +1,10 @@
 const {
   getPaginationObject,
-  validateDateFormate,
-  formateToDate,
+  validateDateFormat,
+  formatToDate,
   getValidStatusEnum,
   getValidTypeEnum
-} = require('../utils/prismaUtilis');
+} = require('../utils/prismaUtils');
 
 const {
   getPONoteByID,
@@ -20,11 +20,11 @@ const listPONotes = async (req, res) => {
 
     const type = getValidTypeEnum(req.query.type);
     const paginateObj = getPaginationObject(req.query);
-    const startDate = formateToDate(
+    const startDate = formatToDate(
       req?.query?.startdate ||
       req?.query?.date
     );
-    const endDate = formateToDate(req?.query?.enddate);
+    const endDate = formatToDate(req?.query?.enddate);
     const searchKeyword = req?.query?.search;
     const status = getValidStatusEnum(req?.query?.status);
 
@@ -54,7 +54,7 @@ const createPONote = async (req, res) => {
 
     // optional
     const validDueDate = req.body?.duedate ?
-      validateDateFormate(req.body.duedate) :
+      validateDateFormat(req.body.duedate) :
       true;
     // ------
 
