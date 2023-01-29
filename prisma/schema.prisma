@@ -30,5 +30,5 @@ enum Status {
 enum Type {
   ACTION_ITEM
   KEY_DECISION
-  AGEND_ITEM
+  AGENDA_ITEM
 }
