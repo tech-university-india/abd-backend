@@ -11,11 +11,13 @@ app.use(express.json());
 app.use(express.urlencoded({ 'extended': false }));
 
 const apiRoutes = require('./routes/api');
+const apiDocsRoutes = require('./routes/apiDocs');
 
 app.use('/api', apiRoutes);
+app.use('/api-docs', apiDocsRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Agile Board API Endpoint { use /docs to read the documentation }');
+  res.send('Agile Board API Endpoint { use /api-docs to read the documentation }');
 });
 
 app.listen(PORT, () => {
