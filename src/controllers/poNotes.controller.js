@@ -38,12 +38,10 @@ const listPONotes = async (req, res) => {
         paginateObj
       );
 
-    res.status(200).send({
-      result: filteredNotes
-    });
+    res.json(filteredNotes);
   }
   catch (er) {
-    res.status(404).send({
+    res.status(404).json({
       message: er.message
     });
   }
@@ -64,16 +62,14 @@ const createPONote = async (req, res) => {
       validDueDate
     ) ?
       await createValidPONote(req.body) :
-      res.status(400).send({
+      res.status(400).json({
         message: 'Bad Request - Invalid Input'
       });
 
-    res.status(201).send({
-      result: createdNote
-    });
+    res.status(201).json(createdNote);
   }
   catch (er) {
-    res.status(400).send({
+    res.status(400).json({
       message: er.message
     });
   }
@@ -85,20 +81,18 @@ const detailPONote = async (req, res) => {
 
     const resultNote = noteId ?
       await getPONoteByID(Number(noteId)) :
-      res.status(400).send({
+      res.status(400).json({
         message: 'Bad Request - Invalid Input'
       });
 
     resultNote ?
-      res.status(200).send({
-        result: resultNote
-      }) :
-      res.status(404).send({
+      res.status(200).json(resultNote) :
+      res.status(404).json({
         message: 'Not Found!'
       });
   }
   catch (er) {
-    res.status(400).send({
+    res.status(400).json({
       message: er.message
     });
   }
@@ -115,20 +109,18 @@ const editPONote = async (req, res) => {
 
     const updatedNote = data ?
       await updatePONoteById(Number(noteId), data) :
-      res.status(400).send({
+      res.status(400).json({
         message: 'Empty Note'
       });
 
     updatedNote ?
-      res.status(200).send(200, {
-        result: updatedNote
-      }) :
-      res.status(404).send(200, {
+      res.status(200).json(updatedNote) :
+      res.status(404).json({
         message: 'Not Found!'
       });
   }
   catch (er) {
-    res.status(400).send({
+    res.status(400).json({
       message: er.message
     });
   }
@@ -148,16 +140,14 @@ const deletePONote = async (req, res) => {
       await softDeletePONoteById(noteId);
 
     deletedNote ?
-      res.status(204).send({
-        result: deletedNote
-      }) :
-      res.status(404).send(200, {
+      res.status(204).json(deletedNote) :
+      res.status(404).json({
         message: 'Not Found!'
       });
 
   }
   catch (er) {
-    res.status(400).send({
+    res.status(400).json({
       message: er.message
     });
   }
