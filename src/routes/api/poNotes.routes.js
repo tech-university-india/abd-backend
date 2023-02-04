@@ -6,6 +6,8 @@ const {
   editPONote,
   deletePONote
 } = require('../../controllers/poNotes.controller');
+const { generateValidationMiddleware } = require('../../middlewares/validation');
+const poNotesSchema = require('../../schemas/poNotesSchema');
 
 /**
  * @openapi
@@ -172,9 +174,14 @@ const {
  *         description: Internal server error
 */
 router.route('')
-  .get(listPONotes)
-  .post(createPONote);
-
+  .get(
+    generateValidationMiddleware(poNotesSchema.poNotesQuerySchema, 'query'),
+    listPONotes
+  )
+  .post(
+    generateValidationMiddleware(poNotesSchema.createPONoteSchema),
+    createPONote
+  );
 
 /**
  * @openapi
@@ -285,9 +292,21 @@ router.route('')
  *       500:
  *         description: Internal server error
 */
+
+const paramValidationMiddleware = generateValidationMiddleware(poNotesSchema.poNotesParamSchema, 'params');
 router.route('/:id')
-  .get(detailPONote)
-  .patch(editPONote)
-  .delete(deletePONote);
+  .get(
+    paramValidationMiddleware,
+    detailPONote
+  )
+  .patch(
+    paramValidationMiddleware,
+    generateValidationMiddleware(poNotesSchema.patchPONoteSchema),
+    editPONote
+  )
+  .delete(
+    paramValidationMiddleware,
+    deletePONote
+  );
 
 module.exports = router;

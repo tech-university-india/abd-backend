@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const { PORT } = require('./config');
+const { errorHandlingMiddleware } = require('./middlewares');
 
 require('dotenv').config();
 
@@ -19,6 +20,8 @@ app.use('/api-docs', apiDocsRoutes);
 app.get('/', (req, res) => {
   res.send('Agile Board API Endpoint { use /api-docs to read the documentation }');
 });
+
+app.use(errorHandlingMiddleware);
 
 app.listen(PORT, () => {
   console.log(`open server at http://127.0.0.1:${PORT}/`);
