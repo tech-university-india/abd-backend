@@ -4,18 +4,19 @@ const poNotesParamSchema = joi.object({
   id: joi
     .number()
     .integer()
-    .min(0)
+    .min(1)
+  // .required()
 });
 
 const poNotesQuerySchema = joi.object({
   page: joi
     .number()
     .integer()
-    .min(0),
+    .min(1),
   limit: joi
     .number()
     .integer()
-    .min(0),
+    .min(1),
   type: joi
     .string()
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM'),
@@ -33,19 +34,27 @@ const poNotesQuerySchema = joi.object({
   status: joi
     .string()
     .valid('COMPLETED', 'PENDING', 'NONE')
-});
+}).and('page', 'limit');
 
 const createPONoteSchema = joi.object({
   dueDate: joi
     .date()
     .iso(),
+  issueLink: joi
+    .string()
+    .uri(),
   note: joi
     .string()
+    .min(1)
+    .max(1500)
     .required(),
   type: joi
     .string()
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM')
     .required(),
+  status: joi
+    .string()
+    .valid('COMPLETED', 'PENDING', 'NONE')
 });
 
 const patchPONoteSchema = joi.object({
@@ -53,8 +62,10 @@ const patchPONoteSchema = joi.object({
     .date()
     .iso(),
   note: joi
-    .string(),
-  type: joi 
+    .string()
+    .min(1)
+    .max(1500),
+  type: joi
     .string()
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM'),
   status: joi
@@ -63,11 +74,18 @@ const patchPONoteSchema = joi.object({
   issueLink: joi
     .string()
     .uri()
+}).min(1);
+
+const deletePONoteSchema = joi.object({
+  deleteType: joi
+    .string()
+    .valid('HARD'),
 });
 
 module.exports = {
   poNotesParamSchema,
   createPONoteSchema,
   poNotesQuerySchema,
-  patchPONoteSchema
+  patchPONoteSchema,
+  deletePONoteSchema
 };
