@@ -293,11 +293,15 @@ router.route('')
  *         description: Internal server error
 */
 
+// to handle string type "id" in params
 const parseIntIdParam = (req, res, next) => {
   req.params.id = parseInt(req.params.id, 10);
   next();
 };
+
+// to validate params using joi
 const paramValidationMiddleware = generateValidationMiddleware(poNotesSchema.poNotesParamSchema, 'params');
+
 router.route('/:id')
   .get(
     paramValidationMiddleware,

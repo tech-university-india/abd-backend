@@ -11,6 +11,7 @@ const {
   softDeletePONoteById
 } = require('../services/poNoteServices');
 
+// controller to handle GET request for listing all po notes
 const listPONotes = async (req, res, next) => {
   try {
 
@@ -43,6 +44,7 @@ const listPONotes = async (req, res, next) => {
   }
 };
 
+// controller to handle POST request for creating a po note
 const createPONote = async (req, res, next) => {
   try {
 
@@ -66,6 +68,7 @@ const createPONote = async (req, res, next) => {
   }
 };
 
+// controller to handle GET request for getting a po note by id
 const detailPONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
@@ -77,6 +80,7 @@ const detailPONote = async (req, res, next) => {
   }
 };
 
+// controller to handle PATCH request for editing a po note by id
 const editPONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
@@ -103,6 +107,7 @@ const editPONote = async (req, res, next) => {
   }
 };
 
+// controller to handle DELETE request for deleting a po note by id
 const deletePONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;

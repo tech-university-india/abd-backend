@@ -13,6 +13,8 @@ const selectOnlyValidPONoteFields = {
   }
 };
 
+// formating the object data before sending the response,
+// into different note types
 const filterToDifferentTypes = (noteItems) => {
   const filteredNotes = {};
   noteItems.forEach(noteItem => {
@@ -23,6 +25,8 @@ const filterToDifferentTypes = (noteItems) => {
   return filteredNotes;
 };
 
+// get formated date range object to filter notes,
+// that will be used in the query
 const getDateRangeObject = (startDate, endDate = null) => {
 
   const sDate = new Date(startDate);
@@ -40,6 +44,8 @@ const getDateRangeObject = (startDate, endDate = null) => {
   };
 };
 
+// get formated search object to filter notes,
+// that will be used in the query
 const getSearchKeywordObject = (searchKeyword) => {
   return {
     note: {
@@ -49,6 +55,8 @@ const getSearchKeywordObject = (searchKeyword) => {
   };
 };
 
+// get formated status object to filter notes,
+// that will be used in the query
 const getStatusQueryObject = (status) => {
   status = status.toUpperCase();
   return {
@@ -63,6 +71,7 @@ const getStatusQueryObject = (status) => {
   };
 };
 
+// get all notes by quick filter
 const getPONotesByQuickFilter = async (
   type,
   startDate = null,
@@ -95,6 +104,7 @@ const getPONotesByQuickFilter = async (
   return filterToDifferentTypes(notes);
 };
 
+// get specific note by id
 const getPONoteByID = async (noteId) => {
   const noteObj = await prisma.PONote.findFirst({
     where: {
@@ -107,6 +117,7 @@ const getPONoteByID = async (noteId) => {
   return noteObj;
 };
 
+// create a new note
 const createValidPONote = async (
   type, note,
   status, dueDate,
@@ -139,6 +150,7 @@ const createValidPONote = async (
   return createdNote;
 };
 
+// update a note
 const updatePONoteById = async (
   noteId, note,
   status, dueDate,
@@ -170,6 +182,7 @@ const updatePONoteById = async (
   };
 };
 
+// soft delete a note
 const softDeletePONoteById = async (noteId) => {
   const noteObj = await prisma.PONote.updateMany({
     where: {
@@ -185,6 +198,7 @@ const softDeletePONoteById = async (noteId) => {
   return noteObj;
 };
 
+// hard delete a note
 const hardDeletePONoteById = async (noteId) => {
   const noteObj = await prisma.PONote.delete({
     where: {
