@@ -23,17 +23,6 @@ const filterToDifferentTypes = (noteItems) => {
   return filteredNotes;
 };
 
-// const ifNoteExists = async (noteId) => {
-//   const noteObj = await prisma.PONote.findUnique({
-//     where: {
-//       noteId
-//     }
-//   });
-
-//   return (Object.keys(noteObj).length !== 0 && !noteObj.isDeleted) ?
-//     true : false;
-// };
-
 const getDateRangeObject = (startDate, endDate = null) => {
 
   const sDate = new Date(startDate);
@@ -101,6 +90,8 @@ const getPONotesByQuickFilter = async (
     ...selectOnlyValidPONoteFields
   }
   );
+
+  if (!notes) throw new HttpError(404, '(SEARCH) : No Records Found');
   return filterToDifferentTypes(notes);
 };
 
@@ -112,7 +103,7 @@ const getPONoteByID = async (noteId) => {
     },
     ...selectOnlyValidPONoteFields
   });
-  if (!noteObj) throw new HttpError(404, 'No Record Found');
+  if (!noteObj) throw new HttpError(404, '(SEARCH) : No Record Found');
   return noteObj;
 };
 
@@ -128,7 +119,7 @@ const createValidPONote = async (
     ...(status && { status })
   };
 
-  const createdActionItem = await prisma.PONote.create({
+  const createdNote = await prisma.PONote.create({
     data: {
       ...noteDetails,
       ...(type === 'KEY_DECISION' && {
@@ -145,7 +136,7 @@ const createValidPONote = async (
   },
   );
 
-  return createdActionItem;
+  return createdNote;
 };
 
 const updatePONoteById = async (
@@ -157,25 +148,26 @@ const updatePONoteById = async (
   const updateDetails = {
     ...(note && { note }),
     ...(status && { status }),
-    ...(dueDate && { dueDate }),
+    ...(dueDate && { dueDate: new Date(dueDate).toISOString() }),
     ...(issueLink && { issueLink }),
     ...(type && { type })
   };
 
-  if (Object.keys(updateDetails) === 0)
-    throw new HttpError(400, 'No Data to Update');
-
   const noteObj =
-    await prisma.PONote.update({
+    await prisma.PONote.updateMany({
       where: {
         noteId,
         isDeleted: false
       },
-      updateDetails,
-      ...selectOnlyValidPONoteFields
+      data: updateDetails,
     });
 
-  return noteObj;
+  if (noteObj.count === 0) throw new HttpError(404, '(UPDATE) : No Record Found');
+
+  return {
+    noteId,
+    ...updateDetails
+  };
 };
 
 const softDeletePONoteById = async (noteId) => {
@@ -189,7 +181,7 @@ const softDeletePONoteById = async (noteId) => {
     },
   });
 
-  if (noteObj.count === 0) throw new HttpError(400, 'No Record Found to Delete');
+  if (noteObj.count === 0) throw new HttpError(404, '(DELETE) : No Record Found');
   return noteObj;
 };
 
@@ -201,7 +193,7 @@ const hardDeletePONoteById = async (noteId) => {
     },
   });
 
-  if (noteObj.count === 0) throw new HttpError(404, 'No Record Found to Delete');
+  if (noteObj.count === 0) throw new HttpError(404, '(DELETE) : No Record Found');
   return noteObj;
 };
 
