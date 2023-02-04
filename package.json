@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest",
     "start": "node src/index.js",
-    "dev": "nodemon src"
+    "dev": "nodemon src",
+    "lint": "eslint . --ext .js --fix",
+    "test-coverage": "jest --coverage"
   },
   "devDependencies": {
     "@types/express": "^4.17.16",
