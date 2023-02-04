@@ -1,9 +1,5 @@
 const {
   getPaginationObject,
-  validateDateFormat,
-  formatToDate,
-  getValidStatusEnum,
-  getValidTypeEnum
 } = require('../utils/prismaUtils');
 
 const {
@@ -15,141 +11,111 @@ const {
   softDeletePONoteById
 } = require('../services/poNoteServices');
 
-const listPONotes = async (req, res) => {
+const listPONotes = async (req, res, next) => {
   try {
 
-    const type = getValidTypeEnum(req.query.type);
-    const paginateObj = getPaginationObject(req.query);
-    const startDate = formatToDate(
-      req?.query?.startdate ||
-      req?.query?.date
-    );
-    const endDate = formatToDate(req?.query?.enddate);
-    const searchKeyword = req?.query?.search;
-    const status = getValidStatusEnum(req?.query?.status);
+    const {
+      type,
+      startDate,
+      endDate,
+      search,
+      status,
+      page,
+      limit
+    } = req.query;
+
+    const paginateObj = getPaginationObject(page, limit);
 
     const filteredNotes =
       await getPONotesByQuickFilter(
         type,
         startDate,
         endDate,
-        searchKeyword,
+        search,
         status,
         paginateObj
       );
 
-    res.json(filteredNotes);
+    res.status(200).json(filteredNotes);
   }
   catch (er) {
-    res.status(404).json({
-      message: er.message
-    });
+    next(er);
   }
 };
 
-const createPONote = async (req, res) => {
+const createPONote = async (req, res, next) => {
   try {
 
-    // optional
-    const validDueDate = req.body?.duedate ?
-      validateDateFormat(req.body.duedate) :
-      true;
-    // ------
+    const {
+      type, note,
+      status, dueDate,
+      issueLink
+    } = req.body;
 
-    const createdNote = (
-      req.body?.note &&
-      getValidTypeEnum(req.body?.type) &&
-      validDueDate
-    ) ?
-      await createValidPONote(req.body) :
-      res.status(400).json({
-        message: 'Bad Request - Invalid Input'
-      });
+    const createdNote =
+      await createValidPONote(
+        type, note,
+        status, dueDate,
+        issueLink
+      );
 
     res.status(201).json(createdNote);
   }
   catch (er) {
-    res.status(400).json({
-      message: er.message
-    });
+    next(er);
   }
 };
 
-const detailPONote = async (req, res) => {
+const detailPONote = async (req, res, next) => {
+  try {
+    const noteId = req.params.id;
+    const resultNote = await getPONoteByID(noteId);
+    res.status(200).json(resultNote);
+  }
+  catch (er) {
+    next(er);
+  }
+};
+
+const editPONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
 
-    const resultNote = noteId ?
-      await getPONoteByID(Number(noteId)) :
-      res.status(400).json({
-        message: 'Bad Request - Invalid Input'
-      });
+    const {
+      note,
+      status,
+      dueDate,
+      issueLink,
+      type
+    } = req.body;
 
-    resultNote ?
-      res.status(200).json(resultNote) :
-      res.status(404).json({
-        message: 'Not Found!'
-      });
+    const updatedNote =
+      await updatePONoteById(
+        noteId, note,
+        status, dueDate,
+        issueLink, type
+      );
+
+    res.status(200).json(updatedNote);
   }
   catch (er) {
-    res.status(400).json({
-      message: er.message
-    });
+    next(er);
   }
 };
 
-const editPONote = async (req, res) => {
+const deletePONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
-    const data = req.body;
-
-    // // optional
-    // const type = getValidTypeEnum(req.body.type);
-    // // ------
-
-    const updatedNote = data ?
-      await updatePONoteById(Number(noteId), data) :
-      res.status(400).json({
-        message: 'Empty Note'
-      });
-
-    updatedNote ?
-      res.status(200).json(updatedNote) :
-      res.status(404).json({
-        message: 'Not Found!'
-      });
-  }
-  catch (er) {
-    res.status(400).json({
-      message: er.message
-    });
-  }
-};
-
-const deletePONote = async (req, res) => {
-  try {
-    const noteId = Number(req.params.id);
-
-    // optional
-    // const type = getValidTypeEnum(req.body.type);
     const deleteType = req.body.deletetype;
-    // ------
 
-    const deletedNote = deleteType === 'hard' ?
+    deleteType === 'HARD'?
       await hardDeletePONoteById(noteId) :
       await softDeletePONoteById(noteId);
 
-    deletedNote ?
-      res.status(204).json(deletedNote) :
-      res.status(404).json({
-        message: 'Not Found!'
-      });
-
+    res.status(204).json();
   }
   catch (er) {
-    res.status(400).json({
-      message: er.message
-    });
+    next(er);
   }
 };
 
