@@ -14,11 +14,11 @@ model PONote {
   noteId    Int       @unique @default(autoincrement())
   type      Type   // Enum - Type
   status    Status    @default(PENDING)   // Enum - Status
-  note      String
+  note      String    @db.VarChar(1500)
   issueLink  String?
   createdAt DateTime  @default(now())
   dueDate   DateTime?
-  deleted   Boolean   @default(false)
+  isDeleted   Boolean   @default(false)
 }
 
 enum Status {
