@@ -293,19 +293,27 @@ router.route('')
  *         description: Internal server error
 */
 
+const parseIntIdParam = (req, res, next) => {
+  req.params.id = parseInt(req.params.id, 10);
+  next();
+};
 const paramValidationMiddleware = generateValidationMiddleware(poNotesSchema.poNotesParamSchema, 'params');
 router.route('/:id')
   .get(
     paramValidationMiddleware,
+    parseIntIdParam,
     detailPONote
   )
   .patch(
     paramValidationMiddleware,
     generateValidationMiddleware(poNotesSchema.patchPONoteSchema),
+    parseIntIdParam,
     editPONote
   )
   .delete(
     paramValidationMiddleware,
+    generateValidationMiddleware(poNotesSchema.deletePONoteSchema),
+    parseIntIdParam,
     deletePONote
   );
 
