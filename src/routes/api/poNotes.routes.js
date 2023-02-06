@@ -163,6 +163,14 @@ const poNotesSchema = require('../../schemas/poNotesSchema');
  *                   - ACTION_ITEM
  *                   - KEY_DECISION
  *                   - AGENDA_ITEM
+ *               status:
+ *                 type: string
+ *                 description: Status of the note -- by default it'll be PENDING
+ *                 enum:
+ *                   - DRAFT
+ *                   - COMPLETED
+ *                   - PENDING
+ *                   - NONE
  *     responses:
  *       201:
  *         description: Po Note created successfully
