@@ -35,6 +35,7 @@ const poNotesSchema = require('../../schemas/poNotesSchema');
  *           type: string
  *           description: Status of the note
  *           enum:
+ *             - DRAFT
  *             - COMPLETED
  *             - PENDING
  *             - NONE
@@ -112,6 +113,7 @@ const poNotesSchema = require('../../schemas/poNotesSchema');
  *         schema:
  *           type: string
  *           enum:
+ *             - DRAFT
  *             - COMPLETED
  *             - PENDING
  *             - NONE
@@ -249,6 +251,7 @@ router.route('')
  *                 type: string
  *                 description: Status of the note
  *                 enum:
+ *                   - DRAFT
  *                   - COMPLETED
  *                   - PENDING
  *                   - NONE

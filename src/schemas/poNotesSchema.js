@@ -33,7 +33,7 @@ const poNotesQuerySchema = joi.object({
     .string(),
   status: joi
     .string()
-    .valid('COMPLETED', 'PENDING', 'NONE')
+    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
 }).and('page', 'limit');
 
 const createPONoteSchema = joi.object({
@@ -54,7 +54,7 @@ const createPONoteSchema = joi.object({
     .required(),
   status: joi
     .string()
-    .valid('COMPLETED', 'PENDING', 'NONE')
+    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
 });
 
 const patchPONoteSchema = joi.object({
@@ -70,7 +70,7 @@ const patchPONoteSchema = joi.object({
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM'),
   status: joi
     .string()
-    .valid('COMPLETED', 'PENDING', 'NONE'),
+    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
   issueLink: joi
     .string()
     .uri()
