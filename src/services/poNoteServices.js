@@ -13,18 +13,6 @@ const selectOnlyValidPONoteFields = {
   }
 };
 
-// formating the object data before sending the response,
-// into different note types
-const filterToDifferentTypes = (noteItems) => {
-  const filteredNotes = {};
-  noteItems.forEach(noteItem => {
-    filteredNotes[noteItem.type] ?
-      filteredNotes[noteItem.type].push(noteItem) :
-      filteredNotes[noteItem.type] = [noteItem];
-  });
-  return filteredNotes;
-};
-
 // get formated date range object to filter notes,
 // that will be used in the query
 const getDateRangeObject = (startDate, endDate = null) => {
@@ -103,7 +91,7 @@ const getPONotesByQuickFilter = async (
   );
 
   if (!notes) throw new HttpError(404, '(SEARCH) : No Records Found');
-  return filterToDifferentTypes(notes);
+  return notes;
 };
 
 // get specific note by id
