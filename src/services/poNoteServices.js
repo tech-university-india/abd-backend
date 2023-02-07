@@ -74,6 +74,7 @@ const getStatusQueryObject = (status) => {
 // get all notes by quick filter
 const getPONotesByQuickFilter = async (
   type,
+  date = null,
   startDate = null,
   endDate = null,
   searchKeyword = null,
@@ -82,6 +83,7 @@ const getPONotesByQuickFilter = async (
 ) => {
   let filterObj = {};
 
+  filterObj = date ? { ...filterObj, ...getDateRangeObject(date) } : filterObj;
   filterObj = startDate ? { ...filterObj, ...getDateRangeObject(startDate, endDate) } : filterObj;
   filterObj = searchKeyword ? { ...filterObj, ...getSearchKeywordObject(searchKeyword) } : filterObj;
   filterObj = status ? { ...filterObj, ...getStatusQueryObject(status) } : filterObj;

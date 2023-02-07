@@ -14,9 +14,9 @@ const {
 // controller to handle GET request for listing all po notes
 const listPONotes = async (req, res, next) => {
   try {
-
     const {
       type,
+      date,
       startDate,
       endDate,
       search,
@@ -30,13 +30,13 @@ const listPONotes = async (req, res, next) => {
     const filteredNotes =
       await getPONotesByQuickFilter(
         type,
+        date,
         startDate,
         endDate,
         search,
         status,
         paginateObj
       );
-
     res.status(200).json(filteredNotes);
   }
   catch (er) {
@@ -47,7 +47,6 @@ const listPONotes = async (req, res, next) => {
 // controller to handle POST request for creating a po note
 const createPONote = async (req, res, next) => {
   try {
-
     const {
       type, note,
       status, dueDate,
@@ -113,7 +112,7 @@ const deletePONote = async (req, res, next) => {
     const noteId = req.params.id;
     const deleteType = req.body.deletetype;
 
-    deleteType === 'HARD'?
+    deleteType === 'HARD' ?
       await hardDeletePONoteById(noteId) :
       await softDeletePONoteById(noteId);
 
