@@ -10,6 +10,7 @@ const selectOnlyValidPONoteFields = {
     status: true,
     dueDate: true,
     issueLink: true,
+    createdAt: true,
   }
 };
 
