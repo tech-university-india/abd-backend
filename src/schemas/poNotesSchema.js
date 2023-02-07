@@ -34,7 +34,8 @@ const poNotesQuerySchema = joi.object({
   status: joi
     .string()
     .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
-}).and('page', 'limit');
+}).and('page', 'limit').and('startDate', 'endDate').oxor('date', 'startDate').oxor('date', 'endDate');
+
 
 const createPONoteSchema = joi.object({
   dueDate: joi
