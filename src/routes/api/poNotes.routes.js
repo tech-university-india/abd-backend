@@ -86,12 +86,6 @@ const poNotesSchema = require('../../schemas/poNotesSchema');
  *             - AGENDA_ITEM
  *         description: Type of Po Note
  *       - in: query
- *         name: date
- *         schema:
- *           type: string
- *           format: date
- *         description: Date of Po Note
- *       - in: query
  *         name: startDate
  *         schema:
  *           type: string

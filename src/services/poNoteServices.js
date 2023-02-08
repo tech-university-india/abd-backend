@@ -63,7 +63,6 @@ const getStatusQueryObject = (status) => {
 // get all notes by quick filter
 const getPONotesByQuickFilter = async (
   type,
-  date = null,
   startDate = null,
   endDate = null,
   searchKeyword = null,
@@ -72,7 +71,6 @@ const getPONotesByQuickFilter = async (
 ) => {
   let filterObj = {};
 
-  filterObj = date ? { ...filterObj, ...getDateRangeObject(date) } : filterObj;
   filterObj = startDate ? { ...filterObj, ...getDateRangeObject(startDate, endDate) } : filterObj;
   filterObj = searchKeyword ? { ...filterObj, ...getSearchKeywordObject(searchKeyword) } : filterObj;
   filterObj = status ? { ...filterObj, ...getStatusQueryObject(status) } : filterObj;
@@ -91,8 +89,8 @@ const getPONotesByQuickFilter = async (
   }
   );
 
-  if (!notes) throw new HttpError(404, '(SEARCH) : No Records Found');
-  return notes;
+  // if (!notes) throw new HttpError(404, '(SEARCH) : No Records Found');
+  return notes ?? [];
 };
 
 // get specific note by id
@@ -104,8 +102,8 @@ const getPONoteByID = async (noteId) => {
     },
     ...selectOnlyValidPONoteFields
   });
-  if (!noteObj) throw new HttpError(404, '(SEARCH) : No Record Found');
-  return noteObj;
+  // if (!noteObj) throw new HttpError(404, '(SEARCH) : No Record Found');
+  return noteObj ?? {};
 };
 
 // create a new note
