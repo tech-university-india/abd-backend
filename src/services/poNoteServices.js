@@ -1,6 +1,6 @@
-const { PrismaClient } = require('@prisma/client');
 const { HttpError } = require('../errors');
-const prisma = new PrismaClient();
+const prisma = require('../prismaClient');
+const prismaUtils = require('../utils/prismaUtils');
 
 const selectOnlyValidPONoteFields = {
   select: {
@@ -14,67 +14,32 @@ const selectOnlyValidPONoteFields = {
   }
 };
 
-// get formated date range object to filter notes,
-// that will be used in the query
-const getDateRangeObject = (startDate, endDate = null) => {
-
-  const sDate = new Date(startDate);
-  const eDate = endDate ?
-    new Date(endDate) :
-    new Date(startDate);
-
-  eDate.setDate(eDate.getDate() + 1);
-
-  return {
-    createdAt: {
-      gte: sDate,
-      lt: eDate
-    }
-  };
-};
-
-// get formated search object to filter notes,
-// that will be used in the query
-const getSearchKeywordObject = (searchKeyword) => {
-  return {
-    note: {
-      contains: searchKeyword,
-      mode: 'insensitive',
-    }
-  };
-};
-
-// get formated status object to filter notes,
-// that will be used in the query
-const getStatusQueryObject = (status) => {
-  status = status.toUpperCase();
-  return {
-    OR: [
-      {
-        status
-      },
-      {
-        status: 'NONE'
-      }
-    ]
-  };
-};
-
 // get all notes by quick filter
 const getPONotesByQuickFilter = async (
   type,
-  startDate = null,
-  endDate = null,
-  searchKeyword = null,
-  status = null,
-  paginationObj
+  startDate,
+  endDate,
+  searchKeyword,
+  status,
+  page,
+  limit
 ) => {
   let filterObj = {};
 
-  filterObj = startDate ? { ...filterObj, ...getDateRangeObject(startDate, endDate) } : filterObj;
-  filterObj = searchKeyword ? { ...filterObj, ...getSearchKeywordObject(searchKeyword) } : filterObj;
-  filterObj = status ? { ...filterObj, ...getStatusQueryObject(status) } : filterObj;
-  filterObj = type ? { ...filterObj, type } : filterObj;
+  const paginationObj = prismaUtils.getPaginationObject(page, limit);
+
+  filterObj = startDate ? {
+    ...filterObj, ...prismaUtils.getDateRangeObject(startDate, endDate)
+  } : filterObj;
+  filterObj = searchKeyword ? {
+    ...filterObj, ...prismaUtils.getSearchKeywordObject(searchKeyword)
+  } : filterObj;
+  filterObj = status ? {
+    ...filterObj, ...prismaUtils.getStatusQueryObject(status)
+  } : filterObj;
+  filterObj = type ? {
+    ...filterObj, type
+  } : filterObj;
 
   const notes = await prisma.PONote.findMany({
     where: {
@@ -89,8 +54,7 @@ const getPONotesByQuickFilter = async (
   }
   );
 
-  // if (!notes) throw new HttpError(404, '(SEARCH) : No Records Found');
-  return notes ?? [];
+  return notes;
 };
 
 // get specific note by id
@@ -102,8 +66,9 @@ const getPONoteByID = async (noteId) => {
     },
     ...selectOnlyValidPONoteFields
   });
-  // if (!noteObj) throw new HttpError(404, '(SEARCH) : No Record Found');
-  return noteObj ?? {};
+
+  if (!noteObj) throw new HttpError(404, '(SEARCH) : No Record Found');
+  return noteObj;
 };
 
 // create a new note
@@ -116,22 +81,15 @@ const createValidPONote = async (
   const noteDetails = {
     type,
     note,
-    ...(status && { status })
+    ...(status && { status }),
+    ...(dueDate && {
+      dueDate: new Date(dueDate).toISOString()
+    }),
+    ...(issueLink && { issueLink })
   };
 
   const createdNote = await prisma.PONote.create({
-    data: {
-      ...noteDetails,
-      ...(type === 'KEY_DECISION' && {
-        status: 'NONE'
-      }),
-      ...(type === 'ACTION_ITEM' && dueDate && {
-        dueDate: new Date(dueDate).toISOString()
-      }),
-      ...(type === 'ACTION_ITEM' && issueLink && {
-        issueLink
-      })
-    },
+    noteDetails,
     ...selectOnlyValidPONoteFields
   },
   );
@@ -189,7 +147,7 @@ const softDeletePONoteById = async (noteId) => {
 
 // hard delete a note
 const hardDeletePONoteById = async (noteId) => {
-  const noteObj = await prisma.PONote.delete({
+  const noteObj = await prisma.PONote.deleteMany({
     where: {
       noteId,
       isDeleted: false
