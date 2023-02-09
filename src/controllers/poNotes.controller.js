@@ -1,22 +1,10 @@
-const {
-  getPaginationObject,
-} = require('../utils/prismaUtils');
-
-const {
-  getPONoteByID,
-  getPONotesByQuickFilter,
-  createValidPONote,
-  updatePONoteById,
-  hardDeletePONoteById,
-  softDeletePONoteById
-} = require('../services/poNoteServices');
+const poNoteServices = require('../services/poNoteServices');
 
 // controller to handle GET request for listing all po notes
 const listPONotes = async (req, res, next) => {
   try {
     const {
       type,
-      date,
       startDate,
       endDate,
       search,
@@ -25,17 +13,15 @@ const listPONotes = async (req, res, next) => {
       limit
     } = req.query;
 
-    const paginateObj = getPaginationObject(page, limit);
-
     const filteredNotes =
-      await getPONotesByQuickFilter(
+      await poNoteServices.getPONotesByQuickFilter(
         type,
-        date,
         startDate,
         endDate,
         search,
         status,
-        paginateObj
+        page,
+        limit
       );
     res.status(200).json(filteredNotes);
   }
@@ -54,7 +40,7 @@ const createPONote = async (req, res, next) => {
     } = req.body;
 
     const createdNote =
-      await createValidPONote(
+      await poNoteServices.createValidPONote(
         type, note,
         status, dueDate,
         issueLink
@@ -71,7 +57,7 @@ const createPONote = async (req, res, next) => {
 const detailPONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
-    const resultNote = await getPONoteByID(noteId);
+    const resultNote = await poNoteServices.getPONoteByID(noteId);
     res.status(200).json(resultNote);
   }
   catch (er) {
@@ -93,7 +79,7 @@ const editPONote = async (req, res, next) => {
     } = req.body;
 
     const updatedNote =
-      await updatePONoteById(
+      await poNoteServices.updatePONoteById(
         noteId, note,
         status, dueDate,
         issueLink, type
@@ -110,11 +96,11 @@ const editPONote = async (req, res, next) => {
 const deletePONote = async (req, res, next) => {
   try {
     const noteId = req.params.id;
-    const deleteType = req.body.deletetype;
+    const deleteType = req.body.deleteType;
 
     deleteType === 'HARD' ?
-      await hardDeletePONoteById(noteId) :
-      await softDeletePONoteById(noteId);
+      await poNoteServices.hardDeletePONoteById(noteId) :
+      await poNoteServices.softDeletePONoteById(noteId);
 
     res.status(204).json();
   }
@@ -124,7 +110,6 @@ const deletePONote = async (req, res, next) => {
 };
 
 module.exports = {
-  getPONoteByID,
   listPONotes,
   createPONote,
   detailPONote,
