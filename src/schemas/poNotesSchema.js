@@ -29,18 +29,38 @@ const poNotesQuerySchema = joi.object({
   search: joi
     .string(),
   status: joi
-    .string()
-    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
+    .when(joi.ref('type'), {
+      is: 'KEY_DECISION',
+      then: joi
+        .string()
+        .valid('DRAFT', 'NONE'),
+      otherwise: joi
+        .string()
+        .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
+    })
+
 }).and('page', 'limit').with('endDate', 'startDate');
 
 
 const createPONoteSchema = joi.object({
   dueDate: joi
-    .date()
-    .iso(),
+    .when(joi.ref('type'), {
+      is: 'ACTION_ITEM',
+      then: joi
+        .date()
+        .iso(),
+      otherwise: joi
+        .forbidden(),
+    }),
   issueLink: joi
-    .string()
-    .uri(),
+    .when(joi.ref('type'), {
+      is: 'ACTION_ITEM',
+      then: joi
+        .string()
+        .uri(),
+      otherwise: joi
+        .forbidden(),
+    }),
   note: joi
     .string()
     .min(1)
@@ -51,14 +71,28 @@ const createPONoteSchema = joi.object({
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM')
     .required(),
   status: joi
-    .string()
-    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
+    .when(joi.ref('type'), {
+      is: 'KEY_DECISION',
+      then: joi
+        .string()
+        .valid('DRAFT', 'NONE').required(),
+      otherwise: joi
+        .string()
+        .valid('DRAFT', 'COMPLETED', 'PENDING'),
+    })
+
 });
 
 const patchPONoteSchema = joi.object({
   dueDate: joi
-    .date()
-    .iso(),
+    .when(joi.ref('type'), {
+      is: 'ACTION_ITEM',
+      then: joi
+        .date()
+        .iso(),
+      otherwise: joi
+        .forbidden(),
+    }),
   note: joi
     .string()
     .min(1)
@@ -67,11 +101,24 @@ const patchPONoteSchema = joi.object({
     .string()
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM'),
   status: joi
-    .string()
-    .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
+    .when(joi.ref('type'), {
+      is: 'KEY_DECISION',
+      then: joi
+        .string()
+        .valid('DRAFT', 'NONE'),
+      otherwise: joi
+        .string()
+        .valid('DRAFT', 'COMPLETED', 'PENDING'),
+    }),
   issueLink: joi
-    .string()
-    .uri()
+    .when(joi.ref('type'), {
+      is: 'ACTION_ITEM',
+      then: joi
+        .string()
+        .uri(),
+      otherwise: joi
+        .forbidden(),
+    }),
 }).min(1);
 
 const deletePONoteSchema = joi.object({
