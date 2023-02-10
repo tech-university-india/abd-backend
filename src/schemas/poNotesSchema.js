@@ -20,9 +20,6 @@ const poNotesQuerySchema = joi.object({
   type: joi
     .string()
     .valid('ACTION_ITEM', 'KEY_DECISION', 'AGENDA_ITEM'),
-  date: joi
-    .date()
-    .iso(),
   startDate: joi
     .date()
     .iso(),
@@ -34,7 +31,7 @@ const poNotesQuerySchema = joi.object({
   status: joi
     .string()
     .valid('DRAFT', 'COMPLETED', 'PENDING', 'NONE'),
-}).and('page', 'limit').and('startDate', 'endDate').oxor('date', 'startDate').oxor('date', 'endDate');
+}).and('page', 'limit').with('endDate', 'startDate');
 
 
 const createPONoteSchema = joi.object({
