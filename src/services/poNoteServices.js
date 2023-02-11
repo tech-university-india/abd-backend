@@ -89,7 +89,7 @@ const createValidPONote = async (
   };
 
   const createdNote = await prisma.PONote.create({
-    noteDetails,
+    data: noteDetails,
     ...selectOnlyValidPONoteFields
   },
   );
