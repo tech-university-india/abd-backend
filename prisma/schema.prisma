@@ -10,8 +10,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// PO Notes Model
+
 model PONote {
-  noteId    Int       @unique @default(autoincrement())
+  noteId    Int       @id @unique @default(autoincrement())
   type      Type   // Enum - Type
   status    Status    @default(PENDING)   // Enum - Status
   note      String    @db.VarChar(1500)
@@ -20,6 +22,34 @@ model PONote {
   dueDate   DateTime?
   isDeleted   Boolean   @default(false)
 }
+
+// ** DSM Feature **
+
+// Sentimeter Model
+
+model SentimentMeter {
+  sentimentMeterId Int      @id @unique @default(autoincrement())
+  author    Int  // userID
+  sentiment    Sentiment   // Enum - Sentiment
+  createdAt DateTime @default(now())
+}
+
+// Celebration Model
+
+model Celebration {
+  celebrationId Int      @id @unique @default(autoincrement())
+  author    Int  // userID
+  content   String   @db.VarChar(300)
+  createdAt DateTime @default(now())
+}
+
+// Request Model
+
+
+// Announcement Model
+
+
+// Enums
 
 enum Status {
   COMPLETED
@@ -32,4 +62,11 @@ enum Type {
   ACTION_ITEM
   KEY_DECISION
   AGENDA_ITEM
+}
+
+enum Sentiment {
+  HAPPY
+  GOOD
+  OK
+  BAD
 }
