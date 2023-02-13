@@ -28,6 +28,11 @@ const getPONotesByQuickFilter = async (
 
   const paginationObj = prismaUtils.getPaginationObject(page, limit);
 
+  // getDateRangeObject, getSearchKeywordObject, getStatusQueryObject 
+  // - these functions are just giving formated object
+  // that can be directly added into prisma query
+  // nothing manipulation is made here
+  // so, can't expect null value from these functions
   filterObj = startDate ? {
     ...filterObj, ...prismaUtils.getDateRangeObject(startDate, endDate)
   } : filterObj;
