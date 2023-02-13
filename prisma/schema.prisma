@@ -43,7 +43,26 @@ model Celebration {
   createdAt DateTime @default(now())
 }
 
+// RequestTaggedUser Model
+
+model RequestTaggedUser {
+  id Int @id @unique @default(autoincrement())
+  userId Int
+  requestId Int
+  request Request @relation(fields: [requestId], references: [id])
+}
+
 // Request Model
+
+model Request {
+  id Int @id @unique @default(autoincrement())
+  author Int // userID
+  content String @db.VarChar(255)
+  status RequestStatus @default(PENDING) // Enum - Status
+  type RequestType // Enum - Type
+  createdAt DateTime @default(now())
+  taggedIndividuals RequestTaggedUser[]
+}
 
 
 // Announcement Model
@@ -69,4 +88,15 @@ enum Sentiment {
   GOOD
   OK
   BAD
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+enum RequestType {
+  RESOURCE
+  MEETING
 }
