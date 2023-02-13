@@ -27,10 +27,10 @@ model PONote {
 
 // Sentimeter Model
 
-model Sentimeter {
-  sentimeterId Int      @id @unique @default(autoincrement())
+model SentimentMeter {
+  sentimentMeterId Int      @id @unique @default(autoincrement())
   author    Int  // userID
-  feel    Feel   // Enum - Feel
+  sentiment    Sentiment   // Enum - Sentiment
   createdAt DateTime @default(now())
 }
 
@@ -64,7 +64,7 @@ enum Type {
   AGENDA_ITEM
 }
 
-enum Feel {
+enum Sentiment {
   HAPPY
   GOOD
   OK
