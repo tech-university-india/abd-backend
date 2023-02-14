@@ -48,6 +48,12 @@ model Celebration {
 
 // Announcement Model
 
+model Announcement {
+  announcementId Int  @id @unique @default(autoincrement())
+  author    Int  // userID
+  content   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+}
 
 // Enums
 
