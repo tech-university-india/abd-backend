@@ -11,7 +11,6 @@ datasource db {
 }
 
 // PO Notes Model
-
 model PONote {
   noteId    Int       @id @unique @default(autoincrement())
   type      Type   // Enum - Type
@@ -25,8 +24,7 @@ model PONote {
 
 // ** DSM Feature **
 
-// Sentimeter Model
-
+// SentimentMeter Model
 model SentimentMeter {
   sentimentMeterId Int      @id @unique @default(autoincrement())
   author    Int  // userID
@@ -35,7 +33,6 @@ model SentimentMeter {
 }
 
 // Celebration Model
-
 model Celebration {
   celebrationId Int      @id @unique @default(autoincrement())
   author    Int  // userID
@@ -43,11 +40,27 @@ model Celebration {
   createdAt DateTime @default(now())
 }
 
+// RequestTaggedUser Model
+model RequestTaggedUser {
+  id Int @id @unique @default(autoincrement())
+  userId Int
+  requestId Int
+  request Request @relation(fields: [requestId], references: [id])
+}
+
 // Request Model
+model Request {
+  id Int @id @unique @default(autoincrement())
+  author Int // userID
+  content String @db.VarChar(255)
+  status RequestStatus @default(PENDING) // Enum - Status
+  type RequestType // Enum - Type
+  createdAt DateTime @default(now())
+  taggedIndividuals RequestTaggedUser[]
+}
 
 
 // Announcement Model
-
 model Announcement {
   announcementId Int  @id @unique @default(autoincrement())
   author    Int  // userID
@@ -75,4 +88,15 @@ enum Sentiment {
   GOOD
   OK
   BAD
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  DENIED
+}
+
+enum RequestType {
+  RESOURCE
+  MEETING
 }
