@@ -11,7 +11,6 @@ datasource db {
 }
 
 // PO Notes Model
-
 model PONote {
   noteId    Int       @id @unique @default(autoincrement())
   type      Type   // Enum - Type
@@ -25,8 +24,7 @@ model PONote {
 
 // ** DSM Feature **
 
-// Sentimeter Model
-
+// SentimentMeter Model
 model SentimentMeter {
   sentimentMeterId Int      @id @unique @default(autoincrement())
   author    Int  // userID
@@ -35,7 +33,6 @@ model SentimentMeter {
 }
 
 // Celebration Model
-
 model Celebration {
   celebrationId Int      @id @unique @default(autoincrement())
   author    Int  // userID
@@ -44,7 +41,6 @@ model Celebration {
 }
 
 // RequestTaggedUser Model
-
 model RequestTaggedUser {
   id Int @id @unique @default(autoincrement())
   userId Int
@@ -53,7 +49,6 @@ model RequestTaggedUser {
 }
 
 // Request Model
-
 model Request {
   id Int @id @unique @default(autoincrement())
   author Int // userID
@@ -66,7 +61,12 @@ model Request {
 
 
 // Announcement Model
-
+model Announcement {
+  announcementId Int  @id @unique @default(autoincrement())
+  author    Int  // userID
+  content   String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+}
 
 // Enums
 
