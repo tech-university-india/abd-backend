@@ -1,0 +1,739 @@
+{
+  "info": {
+    "_postman_id": "2bdacdaa-31da-4687-81a4-11f619b016ce",
+    "name": "agileBoard",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "25265885"
+  },
+  "item": [
+    {
+      "name": "PONotes",
+      "item": [
+        {
+          "name": "getPONoteById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes/1",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "searchPONotes (all)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "searchPONotes (filter)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes?search=str&status=PENDING&startDate=2023-01-27&endDate=2023-01-28&page=1&limit=10",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "str"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2023-01-27"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2023-01-28"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createPONote (without duedate)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"note\": \"string\",\n    \"type\": \"ACTION_ITEM\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createPONote with status as DRAFT",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"note\": \"string\",\n    \"type\": \"ACTION_ITEM\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createPONote (with duedate)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"note\": \"string\",\n    \"type\": \"KEY_DECISION\",\n    \"dueDate\": \"2023-01-27\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "createPONote (with all inputs)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"note\": \"string\",\n    \"type\": \"ACTION_ITEM\",\n    \"dueDate\": \"2023-01-27\",\n    \"status\": \"COMPLETED\",\n    \"issueLink\": \"http://dummyUrl.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updatePONote (least 1 field required)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes/34",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes",
+                "34"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updatePONote (all inputs - optional)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"note\": \"string\",\n    \"type\": \"ACTION_ITEM\",\n    \"dueDate\": \"2023-01-27\",\n    \"status\": \"COMPLETED\",\n    \"issueLink\": \"http://dummyUrl.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes/1",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deletePONote (SOFT)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes/1",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deletePONote (HARD)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"deleteType\": \"HARD\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/po-notes/1",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "po-notes",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DsmCelebration",
+      "item": [
+        {
+          "name": "getAllCelebrationLists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{DOMAIN}}/api/dsm-celebrations",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "dsm-celebrations"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "getAllCelebrationLists",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{DOMAIN}}/api/dsm-celebrations",
+                  "host": [
+                    "{{DOMAIN}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dsm-celebrations"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "1116"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"45c-gt3Voh14nOiYATRleRU3Dlh7/U0\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Feb 2023 21:17:25 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"celebrationId\": 11,\n        \"author\": 10,\n        \"content\": \"Thank You - The TEAM\",\n        \"createdAt\": \"2023-02-15T21:17:17.761Z\"\n    },\n    {\n        \"celebrationId\": 10,\n        \"author\": 9,\n        \"content\": \"Thank you Bharatraj for helping out!\",\n        \"createdAt\": \"2023-02-15T21:16:38.439Z\"\n    },\n    {\n        \"celebrationId\": 9,\n        \"author\": 8,\n        \"content\": \"Thank you Ritik for helping out!\",\n        \"createdAt\": \"2023-02-15T21:16:23.237Z\"\n    },\n    {\n        \"celebrationId\": 8,\n        \"author\": 8,\n        \"content\": \"Thank you Karthik(x2) for helping out!\",\n        \"createdAt\": \"2023-02-15T21:16:12.773Z\"\n    },\n    {\n        \"celebrationId\": 7,\n        \"author\": 7,\n        \"content\": \"Thank you Abhishek for helping out!\",\n        \"createdAt\": \"2023-02-15T21:15:38.934Z\"\n    },\n    {\n        \"celebrationId\": 6,\n        \"author\": 6,\n        \"content\": \"Thank you Samim for helping out!\",\n        \"createdAt\": \"2023-02-15T21:14:59.401Z\"\n    },\n    {\n        \"celebrationId\": 5,\n        \"author\": 99,\n        \"content\": \"I love CodeAcademy >>>\",\n        \"createdAt\": \"2023-02-15T21:10:04.802Z\"\n    },\n    {\n        \"celebrationId\": 4,\n        \"author\": 3,\n        \"content\": \"Hey McKinsey :>\",\n        \"createdAt\": \"2023-02-15T20:59:48.860Z\"\n    },\n    {\n        \"celebrationId\": 2,\n        \"author\": 2,\n        \"content\": \"hurray!!! my-agile-board team :)\",\n        \"createdAt\": \"2023-02-15T20:43:29.886Z\"\n    },\n    {\n        \"celebrationId\": 1,\n        \"author\": 1,\n        \"content\": \"well done team abd!\",\n        \"createdAt\": \"2023-02-15T20:42:14.836Z\"\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "getCelebrationById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{DOMAIN}}/api/dsm-celebrations/2",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "dsm-celebrations",
+                "2"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "getCelebrationById",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{DOMAIN}}/api/dsm-celebrations/11",
+                  "host": [
+                    "{{DOMAIN}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dsm-celebrations",
+                    "11"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "104"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"68-Zd4I+9DmRNDtQpPxM2XLUS+ZD58\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Feb 2023 21:17:59 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"celebrationId\": 11,\n    \"author\": 10,\n    \"content\": \"Thank You - The TEAM\",\n    \"createdAt\": \"2023-02-15T21:17:17.761Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "postCelebration",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"author\": 2,\n    \"content\": \"hurray!!! my-agile-board team :)\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/dsm-celebrations",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "dsm-celebrations"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "postCelebration",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"author\": 10,\n    \"content\": \"Thank You - The TEAM\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{DOMAIN}}/api/dsm-celebrations",
+                  "host": [
+                    "{{DOMAIN}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dsm-celebrations"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "168"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"a8-3jCpYgwuXY5JbNvzOrTn3eQ6hZ8\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Feb 2023 21:17:17 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Celebration created successfully\",\n    \"newCelebration\": {\n        \"celebrationId\": 11,\n        \"author\": 10,\n        \"content\": \"Thank You - The TEAM\",\n        \"createdAt\": \"2023-02-15T21:17:17.761Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "updateCelebrationById",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\":\"well done team abd!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{DOMAIN}}/api/dsm-celebrations/1",
+              "host": [
+                "{{DOMAIN}}"
+              ],
+              "path": [
+                "api",
+                "dsm-celebrations",
+                "1"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "updateCelebrationById",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"content\":\"Thank you so much - The TEAM\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{DOMAIN}}/api/dsm-celebrations/11",
+                  "host": [
+                    "{{DOMAIN}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dsm-celebrations",
+                    "11"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "180"
+                },
+                {
+                  "key": "ETag",
+                  "value": "W/\"b4-z1O+0xZ0c6dbBKYqSc2/K49SHtY\""
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Feb 2023 21:21:04 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"message\": \"Celebration updated successfully\",\n    \"updatedCelebration\": {\n        \"celebrationId\": 11,\n        \"author\": 10,\n        \"content\": \"Thank you so much - The TEAM\",\n        \"createdAt\": \"2023-02-15T21:17:17.761Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "deleteCelebrationById",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": [
+            {
+              "name": "New Request",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{DOMAIN}}/api/dsm-celebrations/5",
+                  "host": [
+                    "{{DOMAIN}}"
+                  ],
+                  "path": [
+                    "api",
+                    "dsm-celebrations",
+                    "5"
+                  ]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "plain",
+              "header": [
+                {
+                  "key": "X-Powered-By",
+                  "value": "Express"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "Date",
+                  "value": "Wed, 15 Feb 2023 21:23:54 GMT"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=5"
+                }
+              ],
+              "cookie": [],
+              "body": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
