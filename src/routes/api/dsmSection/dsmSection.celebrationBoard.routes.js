@@ -23,5 +23,3 @@ router.put('/:id', updateCelebration);
 router.delete('/:id', deleteCelebration);
 
 module.exports = router;
-
-
