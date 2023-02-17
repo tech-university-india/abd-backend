@@ -7,6 +7,7 @@ const {
   deleteAnnouncement
 } = require('../../../controllers/dsm/announcements.controller');
 const { generateValidationMiddleware } = require('../../../middlewares/validation');
+const { paramParser } = require('../../../middlewares/paramParser');
 const announcementsSchema = require('../../../schemas/dsm/announcementsSchema');
 
 /**
@@ -88,12 +89,12 @@ router.route('/')
   .get(listAnnouncements)
   .post(generateValidationMiddleware(announcementsSchema.createAnnouncementSchema), createAnnouncement);
 
-const parseIntIdParam = (req, res, next) => {
-  req.params.id = parseInt(req.params.id, 10);
-  next();
+const requiredParams = {
+  id: 'number'
 };
 
 const paramValidationMiddleware = generateValidationMiddleware(announcementsSchema.announcementsParamSchema, 'params');
+const paramParsingMiddleware = paramParser(requiredParams);
 
 /**
  * @openapi
@@ -183,18 +184,18 @@ const paramValidationMiddleware = generateValidationMiddleware(announcementsSche
 router.route('/:id')
   .get(
     paramValidationMiddleware,
-    parseIntIdParam,
+    paramParsingMiddleware,
     detailAnnouncement
   )
   .patch(
     paramValidationMiddleware,
     generateValidationMiddleware(announcementsSchema.patchAnnouncementSchema),
-    parseIntIdParam,
+    paramParsingMiddleware,
     editAnnouncement
   )
   .delete(
     paramValidationMiddleware,
-    parseIntIdParam,
+    paramParsingMiddleware,
     deleteAnnouncement
   );
 
