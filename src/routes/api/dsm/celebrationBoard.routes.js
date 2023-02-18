@@ -5,7 +5,7 @@ const {
   createCelebration,
   updateCelebration,
   deleteCelebration
-} = require('../../../controllers/dsmSection/dsmSection.celebrationBoard.controller');
+} = require('../../../controllers/dsm/celebrationBoard.controller');
 
 /**
  * @openapi
