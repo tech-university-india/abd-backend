@@ -6,6 +6,7 @@ const selectOnlyValidCelebrationBoardFields = {
     celebrationId: true,
     author: true,
     content: true,
+    type: true,
     createdAt: true,
   }
 };
@@ -36,11 +37,12 @@ const getCelebrationById = async (celebrationId) => {
 };
 
 // create a new celebration
-const createCelebration = async (author, content) => {
+const createCelebration = async (author, content, type) => {
   const newCelebration = await prisma.Celebration.create({
     data: {
       author,
       content,
+      type,
     },
     ...selectOnlyValidCelebrationBoardFields
   }
@@ -49,13 +51,14 @@ const createCelebration = async (author, content) => {
 };
 
 // update a celebration
-const updateCelebrationById = async (celebrationId, content) => {
+const updateCelebrationById = async (celebrationId, content, type) => {
   const updatedCelebration = await prisma.Celebration.update({
     where: {
       celebrationId
     },
     data: {
       content,
+      type,
     },
     ...selectOnlyValidCelebrationBoardFields
   }

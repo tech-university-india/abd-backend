@@ -1,4 +1,4 @@
-const celebrationBoardServices = require('../../services/dsmSection/dsmSection.celebrationBoard.services');
+const celebrationBoardServices = require('../../services/dsm/celebrationBoard.services');
 
 // controller to handle GET request for listing all celebrations
 const listCelebrations = async (req, res, next) => {
@@ -28,9 +28,10 @@ const detailCelebration = async (req, res, next) => {
 // controller to handle POST request for creating a celebration
 const createCelebration = async (req, res, next) => {
   try {
-    const { author, content } = req.body;
+    const author = 'anonymous';
+    const { content, type } = req.body;
     const newCelebration =
-      await celebrationBoardServices.createCelebration(author, content);
+      await celebrationBoardServices.createCelebration(author, content, type);
     res.status(201).json({ message: 'Celebration created successfully', newCelebration });
   }
   catch (er) {
@@ -42,9 +43,9 @@ const createCelebration = async (req, res, next) => {
 const updateCelebration = async (req, res, next) => {
   try {
     const celebrationId = parseInt(req.params.id);
-    const { content } = req.body;
+    const { content, type } = req.body;
     const updatedCelebration =
-      await celebrationBoardServices.updateCelebrationById(celebrationId, content);
+      await celebrationBoardServices.updateCelebrationById(celebrationId, content, type);
     res.status(200).json({ message: 'Celebration updated successfully', updatedCelebration });
   }
   catch (er) {
