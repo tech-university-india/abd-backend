@@ -45,7 +45,7 @@ const getAnnouncementByID = async (announcementId) => {
 
 /**
   * Service to create announcement
-  * @param {Number} author - user id of the author
+  * @param {String} author - user id of the author
   * @param {String} content - content of the announcement
   * @returns {Object} - Announcement object
 */

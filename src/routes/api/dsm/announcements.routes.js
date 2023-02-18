@@ -25,7 +25,7 @@ const announcementsSchema = require('../../../schemas/dsm/announcementsSchema');
  *          type: integer
  *          description: Unique identifier of the announcement
  *        author:
- *          type: integer
+ *          type: string
  *          description: User id of the author
  *        content:
  *          type: string

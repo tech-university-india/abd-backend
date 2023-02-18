@@ -44,7 +44,7 @@ const createAnnouncement = async (req, res, next) => {
   try {
     // author ID is set as random(between 1 to 1000) for now
     // const author = req.user.id;
-    const author = getRandomNumber(1, 1000);
+    const author = getRandomNumber(1, 1000).toString();
     const content = req.body.content;
     const resultAnnouncement = await announcementServices.createAnnouncement(author, content);
     res.status(201).json(resultAnnouncement);
