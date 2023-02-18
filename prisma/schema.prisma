@@ -26,24 +26,34 @@ model PONote {
 
 // SentimentMeter Model
 model SentimentMeter {
-  sentimentMeterId Int      @id @unique @default(autoincrement())
-  author    Int  // userID
+  id Int      @id @unique @default(autoincrement())
+  author    String  // user UUID
   sentiment    Sentiment   // Enum - Sentiment
   createdAt DateTime @default(now())
 }
 
+// CelebrationReactedUser Model
+model CelebrationReactedUser {
+  id Int @id @unique @default(autoincrement())
+  userId String
+  celebrationId Int
+  request Celebration @relation(fields: [celebrationId], references: [id])
+}
+
 // Celebration Model
 model Celebration {
-  celebrationId Int      @id @unique @default(autoincrement())
-  author    Int  // userID
+  id Int      @id @unique @default(autoincrement())
+  author    String  // user UUID
   content   String   @db.VarChar(300)
+  type  CelebrationType   // Enum - CelebrationType
+  reaction  CelebrationReactedUser[]
   createdAt DateTime @default(now())
 }
 
 // RequestTaggedUser Model
 model RequestTaggedUser {
   id Int @id @unique @default(autoincrement())
-  userId Int
+  userId String
   requestId Int
   request Request @relation(fields: [requestId], references: [id])
 }
@@ -51,7 +61,7 @@ model RequestTaggedUser {
 // Request Model
 model Request {
   id Int @id @unique @default(autoincrement())
-  author Int // userID
+  author String // user UUID
   content String @db.VarChar(255)
   status RequestStatus @default(PENDING) // Enum - Status
   type RequestType // Enum - Type
@@ -63,7 +73,7 @@ model Request {
 // Announcement Model
 model Announcement {
   announcementId Int  @id @unique @default(autoincrement())
-  author    Int  // userID
+  author    String  // user UUID
   content   String   @db.VarChar(255)
   createdAt DateTime @default(now())
 }
@@ -99,4 +109,9 @@ enum RequestStatus {
 enum RequestType {
   RESOURCE
   MEETING
+}
+
+enum CelebrationType {
+  CELEBRATION
+  IMPEDIMENT
 }
