@@ -26,9 +26,13 @@ function errorHandlingMiddleware(err, req, res, next) {
   case Prisma.PrismaClientKnownRequestError: {
     // seperatly handling the internal db or query errors
     // thrown prisma  ("2***" error codes)
+    if(err.code === 'P2025') {
+      return res.status(404).json({ message: 'Record to delete does not exist' });
+    } else
     if ((/2\d{3}/g).exec(err.code)) {
       return res.status(500).json({ message: 'Internal Server Error - Query Engine Went Wrong' });
     }
+   
     return res.status(500).json({ message: 'Internal Server Error - Something Went Wrong' });
   }
   default: {
