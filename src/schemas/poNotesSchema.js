@@ -44,6 +44,7 @@ const poNotesQuerySchema = joi.object({
 
 const createPONoteSchema = joi.object({
   dueDate: joi
+    .allow(null)
     .when(joi.ref('type'), {
       is: 'ACTION_ITEM',
       then: joi
@@ -53,6 +54,7 @@ const createPONoteSchema = joi.object({
         .forbidden(),
     }),
   issueLink: joi
+    .allow(null)
     .when(joi.ref('type'), {
       is: 'ACTION_ITEM',
       then: joi
@@ -85,6 +87,7 @@ const createPONoteSchema = joi.object({
 
 const patchPONoteSchema = joi.object({
   dueDate: joi
+    .allow(null)
     .when(joi.ref('type'), {
       is: 'ACTION_ITEM',
       then: joi
@@ -111,6 +114,7 @@ const patchPONoteSchema = joi.object({
         .valid('DRAFT', 'COMPLETED', 'PENDING'),
     }),
   issueLink: joi
+    .allow(null)
     .when(joi.ref('type'), {
       is: 'ACTION_ITEM',
       then: joi

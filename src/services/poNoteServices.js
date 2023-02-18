@@ -90,7 +90,15 @@ const createValidPONote = async (
     ...(dueDate && {
       dueDate: new Date(dueDate).toISOString()
     }),
-    ...(issueLink && { issueLink })
+    ...(issueLink && { issueLink }),
+
+    // if dueDate or issueLink is null or undefined overwrite it with null
+    ...(dueDate === undefined || dueDate === null && {
+      dueDate: null
+    }),
+    ...(issueLink === undefined || issueLink === null && {
+      issueLink: null
+    })
   };
 
   const createdNote = await prisma.PONote.create({
@@ -112,9 +120,19 @@ const updatePONoteById = async (
   const updateDetails = {
     ...(note && { note }),
     ...(status && { status }),
-    ...(dueDate && { dueDate: new Date(dueDate).toISOString() }),
+    ...(dueDate && {
+      dueDate: new Date(dueDate).toISOString()
+    }),
     ...(issueLink && { issueLink }),
-    ...(type && { type })
+    ...(type && { type }),
+
+    // if dueDate or issueLink is null or undefined overwrite it with null
+    ...(dueDate === undefined || dueDate === null && {
+      dueDate: null
+    }),
+    ...(issueLink === undefined || issueLink === null && {
+      issueLink: null
+    })
   };
 
   const noteObj =
