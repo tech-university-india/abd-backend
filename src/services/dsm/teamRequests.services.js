@@ -43,7 +43,10 @@ const getAllTeamRequests = async (type,
         ...filterObj, ...prismaUtils.getDateRangeObject(startDate, endDate)
     } : filterObj;
     filterObj = searchKeyword ? {
-        ...filterObj, ...prismaUtils.getSearchKeywordObject(searchKeyword)
+        ...filterObj, content: {
+            contains: searchKeyword,
+            mode: 'insensitive',
+          }
     } : filterObj;
     filterObj = status ? {
         ...filterObj, ...prismaUtils.getStatusQueryObject(status)
