@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { listTeamRequests, createTeamRequest, getTeamRequestById, editTeamRequest, deleteTeamRequest } = require('../../../controllers/dsm/teamRequests.controller');
+const { listTeamRequests, createTeamRequest, editTeamRequest, deleteTeamRequest } = require('../../../controllers/dsm/teamRequests.controller');
 const { parseIntIdParam } = require('../../../utils/paramsHandling');
 const { generateValidationMiddleware } = require('../../../middlewares/validation')
 const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
@@ -51,6 +51,56 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *       - team-requests
  *     summary: List all team requests
  *     description: List all team requests
+ *     parameters:
+  *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of items per page
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - MEETING
+ *             - RESOURCE
+ *         description: Type of team request
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: start Date of team request
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: end Date of team request
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         description: Search in team request
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum:
+ *             - PENDING
+ *             - APPROVED
+ *             - REJECTED
+ *         description: Status of team request  
+ *       - in: query
+ *         name: author
+ *         schema:
+ *           type: integer
+ *         description: author of team request  
  *     responses:
  *       200:
  *         description: List of team requests
@@ -108,31 +158,6 @@ router.route('')
 /**
  * @openapi
  * /api/dsm/team-requests/{id}:
- *   get:
- *     tags:
- *       - team-requests
- *     summary: List all team requests
- *     description: List all team requests
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: Unique identifier of the request
- *     responses:
- *       200:
- *         description: List of team requests
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: "#/components/schemas/team-requests"
- *       400:
- *         description: Bad request if invalid data is passed
- *       500:
- *         description: Internal server error
  *   put:
  *     tags:
  *       - team-requests
@@ -163,13 +188,13 @@ router.route('')
  *                 description:  Content of the note
  *               type:
  *                 type: string
- *                 description: Type of the request
+ *                 description: Type of the team request
  *                 enum:
  *                   - RESOURCE
  *                   - MEETING
  *               status:
  *                 type: string
- *                 description: Status of the request
+ *                 description: Status of the team request
  *                 enum:
  *                   - PENDING
  *                   - APPROVED 
@@ -208,7 +233,6 @@ router.route('')
  *         description: Internal server error
 */
 router.route('/:id')
-    .get(parseIntIdParam,generateValidationMiddleware(requestSchema.getTeamRequestById), getTeamRequestById)
     .put(parseIntIdParam,generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
-    .delete(generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
+    .delete(parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
 module.exports = router;

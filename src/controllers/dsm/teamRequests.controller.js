@@ -1,16 +1,5 @@
 const teamRequestsServices = require('../../services/dsm/teamRequests.services');
-
-/*  Request Model
-model Request {
-  id Int @id @unique @default(autoincrement())
-  author Int // userID
-  content String @db.VarChar(255)
-  status RequestStatus @default(PENDING) // Enum - Status
-  type RequestType // Enum - Type
-  createdAt DateTime @default(now())
-  taggedIndividuals RequestTaggedUser[]
-}
-*/ 
+// controller for creating team request
 const createTeamRequest = async (req, res, next) => {
     try{
         const { author, content, status, type, createdAt, taggedIndividuals } = req.body;
@@ -22,9 +11,12 @@ const createTeamRequest = async (req, res, next) => {
         res.status(400).json({error: error.message});
     }
 }
+// controller for listing all team requests
 const listTeamRequests = async (req, res, next) => {
+    // query params for filetring on startDate, endDate, search keyword, status, page , limit and author
     const {
         type,
+        author,
         startDate,
         endDate,
         search,
@@ -35,6 +27,7 @@ const listTeamRequests = async (req, res, next) => {
     try{
         const teamRequests = await teamRequestsServices.getAllTeamRequests(
         type,
+        author,
         startDate,
         endDate,
         search,
@@ -49,6 +42,7 @@ const listTeamRequests = async (req, res, next) => {
         next(error);
     }
 }
+// controller for editing team request
 const editTeamRequest = async (req, res, next) => {
     try{
         const { id } = req.params;
@@ -62,6 +56,7 @@ const editTeamRequest = async (req, res, next) => {
         next(error);
     }
 }
+// controller for deleting team request
 const deleteTeamRequest = async (req, res, next) => {
     try{
         const { id } = req.params;
@@ -73,16 +68,4 @@ const deleteTeamRequest = async (req, res, next) => {
         next(error);
     }
 }
-const getTeamRequestById = async (req, res, next) => {
-    try{
-        const { id } = req.params;
-        const teamRequest = await teamRequestsServices.getTeamRequestById(id);
-        res.status(200).json(teamRequest);
-    }
-    catch(error)
-    {
-        next(error);
-    
-    }
-}
-module.exports={createTeamRequest, listTeamRequests , editTeamRequest,deleteTeamRequest,getTeamRequestById};
+module.exports={createTeamRequest, listTeamRequests , editTeamRequest,deleteTeamRequest};

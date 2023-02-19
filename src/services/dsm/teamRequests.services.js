@@ -1,15 +1,5 @@
 const prisma = require('../../prismaClient');
 const prismaUtils = require('../../utils/prismaUtils');
-/* Request Model
-model Request {
-  id Int @id @unique @default(autoincrement())
-  author Int // userID
-  content String @db.VarChar(255)
-  status RequestStatus @default(PENDING) // Enum - Status
-  type RequestType // Enum - Type
-  createdAt DateTime @default(now())
-  taggedIndividuals RequestTaggedUser[]
-}*/
 const selectOnlyValidTeamrequestsFields = {
     select: {
         id: true,
@@ -21,6 +11,7 @@ const selectOnlyValidTeamrequestsFields = {
         taggedIndividuals: true,
     }
 };
+// service to create a valid team request
 const createValidTeamRequest = async (author, content, status, type, createdAt, taggedIndividuals) => {
     console.log("createValidTeamRequest");
     const createdRequest = await prisma.Request.create({
@@ -34,10 +25,11 @@ const createValidTeamRequest = async (author, content, status, type, createdAt, 
         },
         ...selectOnlyValidTeamrequestsFields
     });
-    console.log("createdRequest: " + createdRequest)
     return createdRequest;
 }
+// service to get all team requests
 const getAllTeamRequests = async (type,
+    author,
     startDate,
     endDate,
     searchKeyword,
@@ -45,7 +37,7 @@ const getAllTeamRequests = async (type,
     page,
     limit) => {
     let filterObj = {};
-    // using query params for filter requests with startDate, endDate, search keyword, status, page and limit) 
+    // using query params for filter requests with startDate, endDate, search keyword, status, page , limit and author) 
     const paginationObj = prismaUtils.getPaginationObject(page, limit);
     filterObj = startDate ? {
         ...filterObj, ...prismaUtils.getDateRangeObject(startDate, endDate)
@@ -59,6 +51,9 @@ const getAllTeamRequests = async (type,
     filterObj = type ? {
         ...filterObj, type
     } : filterObj;
+    filterObj = author ? {
+        ...filterObj,author:parseInt(author)
+      } : filterObj;
     const teamRequests = await prisma.Request.findMany({
         where: {
             ...filterObj,
@@ -72,6 +67,7 @@ const getAllTeamRequests = async (type,
     );
     return teamRequests;
 }
+// service to edit team requests
 const editTeamRequest = async (id, author, content, status, type, createdAt, taggedIndividuals) => {
     const updatedRequest = await prisma.Request.update({
         where: {
@@ -89,6 +85,7 @@ const editTeamRequest = async (id, author, content, status, type, createdAt, tag
     });
     return updatedRequest;
 }
+// service to delete team request by team request id
 const deleteTeamRequest = async (id) => {
     const deleteRequest = await prisma.Request.delete(
         {
@@ -99,15 +96,4 @@ const deleteTeamRequest = async (id) => {
     )
     return deleteRequest;
 }
-const getTeamRequestById = async (id) => {
-    const getRequestById = await prisma.Request.findMany(
-        {
-            where:
-            {
-                id: parseInt(id)
-            }
-        }
-    )
-    return getRequestById;
-}
-module.exports = { createValidTeamRequest, getAllTeamRequests, editTeamRequest, deleteTeamRequest, getTeamRequestById };
+module.exports = { createValidTeamRequest, getAllTeamRequests, editTeamRequest, deleteTeamRequest };
