@@ -13,7 +13,6 @@ const selectOnlyValidTeamrequestsFields = {
 };
 // service to create a valid team request
 const createValidTeamRequest = async (author, content, status, type, createdAt, taggedIndividuals) => {
-    console.log("createValidTeamRequest");
     const createdRequest = await prisma.Request.create({
         data: {
             author,
