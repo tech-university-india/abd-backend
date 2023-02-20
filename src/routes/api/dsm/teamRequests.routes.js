@@ -112,7 +112,6 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *                 $ref: "#/components/schemas/team-requests"
  *       500:
  *         description: Internal server error
- *   
  *   post:
  *     tags:
  *       - team-requests
