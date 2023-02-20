@@ -9,9 +9,8 @@ const createCelebrationSchema = joi.object({
 
   type: joi
     .string()
-    .min(1)
-    .max(11)
-    .required()
+    .valid('CELEBRATION', 'IMPEDIMENT')
+    .required(),
 });
 
 const celebrationsParamSchema = joi.object({
