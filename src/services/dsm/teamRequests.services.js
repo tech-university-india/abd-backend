@@ -2,7 +2,7 @@ const prisma = require('../../prismaClient');
 const prismaUtils = require('../../utils/prismaUtils');
 const selectOnlyValidTeamrequestsFields = {
     select: {
-        id: true,
+        requestId: true,
         author: true,
         content: true,
         status: true,
@@ -24,6 +24,7 @@ const createValidTeamRequest = async (author, content, status, type, createdAt, 
         },
         ...selectOnlyValidTeamrequestsFields
     });
+    console.log(createdRequest);
     return createdRequest;
 }
 // service to get all team requests
@@ -54,7 +55,7 @@ const getAllTeamRequests = async (type,
         ...filterObj, type
     } : filterObj;
     filterObj = author ? {
-        ...filterObj,author:parseInt(author)
+        ...filterObj,author:author
       } : filterObj;
     const teamRequests = await prisma.Request.findMany({
         where: {
@@ -73,7 +74,7 @@ const getAllTeamRequests = async (type,
 const editTeamRequest = async (id, author, content, status, type, createdAt, taggedIndividuals) => {
     const updatedRequest = await prisma.Request.update({
         where: {
-            id: parseInt(id),
+            requestId: parseInt(id),
         },
         data: {
             author,
@@ -92,7 +93,7 @@ const deleteTeamRequest = async (id) => {
     const deleteRequest = await prisma.Request.delete(
         {
             where: {
-                id: parseInt(id)
+                requestId: parseInt(id)
             }
         }
     )

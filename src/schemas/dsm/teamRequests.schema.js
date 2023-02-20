@@ -1,56 +1,76 @@
 const joi = require('joi');
-/*
-model Request {
-  id Int @id @unique @default(autoincrement())
-  author Int // userID
-  content String @db.VarChar(255)
-  status RequestStatus @default(PENDING) // Enum - Status
-  type RequestType // Enum - Type
-  createdAt DateTime @default(now())
-  taggedIndividuals RequestTaggedUser[]
-} */
-const createValidTeamRequest= joi.object({
-    author:joi
-    .number()
-    .integer()
-    .min(1)
-    .required(),
-    content:joi
+const createValidTeamRequest = joi.object({
+  author: joi
     .string()
     .min(1)
     .max(1500)
     .required(),
-    type:joi
+  content: joi
+    .string()
+    .min(1)
+    .max(1500)
+    .required(),
+  type: joi
     .string()
     .valid('MEETING', 'RESOURCE'),
-    taggedIndividuals:joi
+  taggedIndividuals: joi
     .array().items(joi.number().integer())
 });
-const editTeamRequest= joi.object(
-    {
-      author:joi
-      .number()
-      .integer()
-      .min(1)
-      .required(),
-      content:joi
+const editTeamRequest = joi.object(
+  {
+    author: joi
       .string()
       .min(1)
       .max(1500)
       .required(),
-      taggedIndividuals:joi
+    content: joi
+      .string()
+      .min(1)
+      .max(1500)
+      .required(),
+    taggedIndividuals: joi
       .array().items(joi.number().integer()),
-      type:joi
+    type: joi
       .string()
       .valid('MEETING', 'RESOURCE'),
-      status:joi
+    status: joi
       .string()
-    }
+      .valid('PENDING', 'APPROVED', 'REJECTED')
+
+  }
 )
 const deleteTeamRequest = joi.object({
-  id:joi
-  .number()
-  .integer()
-  .min(1)
+  id: joi
+    .number()
+    .integer()
+    .min(1)
 })
-module.exports={createValidTeamRequest, editTeamRequest, deleteTeamRequest};
+const dsmRequestQuerySchema = joi.object({
+  page: joi
+    .number()
+    .integer()
+    .min(1),
+  limit: joi
+    .number()
+    .integer()
+    .min(1),
+  type: joi
+    .string()
+    .valid('MEETING', 'RESOURCE'),
+  startDate: joi
+    .date()
+    .iso(),
+  endDate: joi
+    .date()
+    .iso(),
+  search: joi
+    .string(),
+  status: joi
+    .string()
+    .valid('PENDING', 'APPROVED', 'REJECTED'),
+  author: joi
+    .string()
+    .min(1)
+    .max(1500)
+}).and('page', 'limit').with('endDate', 'startDate');
+module.exports = { createValidTeamRequest, editTeamRequest, deleteTeamRequest, dsmRequestQuerySchema };

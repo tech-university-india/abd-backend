@@ -19,7 +19,7 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *          properties:
  *              author:
  *                  type: string
- *                  description: The user ID of the author of the request
+ *                  description: author of team request 
  *              content:
  *                  type: string
  *                  description: The content of the request
@@ -99,7 +99,7 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *       - in: query
  *         name: author
  *         schema:
- *           type: integer
+ *           type: string
  *         description: author of team request  
  *     responses:
  *       200:
@@ -129,8 +129,8 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *               - type
  *             properties:
  *               author:
- *                 type: integer
- *                 description: User ID of the author
+ *                 type: string
+ *                 description: author of team request 
  *               content:
  *                 type: string
  *                 description:  Content of the note
@@ -153,7 +153,7 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *         description: Internal server error
 */
 router.route('')
-    .get(listTeamRequests)
+    .get(generateValidationMiddleware(requestSchema.dsmRequestQuerySchema,'query'),listTeamRequests)
     .post(generateValidationMiddleware(requestSchema.createValidTeamRequest), createTeamRequest);
 /**
  * @openapi
@@ -181,8 +181,8 @@ router.route('')
  *               - type
  *             properties:
  *               author:
- *                 type: integer
- *                 description: User ID of the author
+ *                 type: string
+ *                 description: author of team request 
  *               content:
  *                 type: string
  *                 description:  Content of the note
