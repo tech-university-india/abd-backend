@@ -24,7 +24,6 @@ const createValidTeamRequest = async (author, content, status, type, createdAt, 
         },
         ...selectOnlyValidTeamrequestsFields
     });
-    console.log(createdRequest);
     return createdRequest;
 }
 // service to get all team requests

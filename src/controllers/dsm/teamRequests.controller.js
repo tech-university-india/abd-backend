@@ -63,7 +63,7 @@ const deleteTeamRequest = async (req, res, next) => {
         res.status(204).json(deletedRequest);
     }
     catch(error)
-    { console.log(error);
+    { 
         next(error);
     }
 }
