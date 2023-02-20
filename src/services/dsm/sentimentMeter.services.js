@@ -63,8 +63,7 @@ const selectOnlyValidSentimentMeterFields = {
       },
       _count: {
         sentiment: true
-      },
-      ...selectOnlyValidSentimentMeterFields
+      }
     });
     
     if (countSentiment.length === 0) throw new HttpError(404, 'No Data found for the date' + createdAt);
