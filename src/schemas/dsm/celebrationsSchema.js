@@ -28,9 +28,7 @@ const patchcelebrationSchema = joi.object({
 
   type: joi
     .string()
-    .min(1)
-    .max(11)
-
+    .valid('CELEBRATION', 'IMPEDIMENT'),
 });
 
 module.exports = { createCelebrationSchema, celebrationsParamSchema, patchcelebrationSchema };
