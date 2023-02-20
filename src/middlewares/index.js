@@ -10,7 +10,6 @@ function errorHandlingMiddleware(err, req, res, next) {
   if (res.headersSent) {
     return next(err);
   }
-
   switch (err.constructor) {
   case joi.ValidationError: {
     return res.status(400).json({ message: 'Bad Request - ' + err.message });
@@ -32,7 +31,6 @@ function errorHandlingMiddleware(err, req, res, next) {
     if ((/2\d{3}/g).exec(err.code)) {
       return res.status(500).json({ message: 'Internal Server Error - Query Engine Went Wrong' });
     }
-   
     return res.status(500).json({ message: 'Internal Server Error - Something Went Wrong' });
   }
   default: {
@@ -40,7 +38,6 @@ function errorHandlingMiddleware(err, req, res, next) {
   }
   }
 }
-
 module.exports = {
   errorHandlingMiddleware,
 };
