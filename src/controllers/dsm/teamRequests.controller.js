@@ -45,11 +45,10 @@ const listTeamRequests = async (req, res, next) => {
 // controller for editing team request
 const editTeamRequest = async (req, res, next) => {
     try{
-        const { id } = req.params;
+        const { requestId } = req.params;
         const { author, content, status, type, createdAt, taggedIndividuals } = req.body;
-        const updatedRequest = await teamRequestsServices.editTeamRequest(id, author, content, status, type, createdAt, taggedIndividuals);
+        const updatedRequest = await teamRequestsServices.editTeamRequest(requestId, author, content, status, type, createdAt, taggedIndividuals);
         res.status(200).json(updatedRequest);
-
     }
     catch(error)
     {
@@ -59,8 +58,8 @@ const editTeamRequest = async (req, res, next) => {
 // controller for deleting team request
 const deleteTeamRequest = async (req, res, next) => {
     try{
-        const { id } = req.params;
-        const deletedRequest = await teamRequestsServices.deleteTeamRequest(id);
+        const { requestId } = req.params;
+        const deletedRequest = await teamRequestsServices.deleteTeamRequest(requestId);
         res.status(204).json(deletedRequest);
     }
     catch(error)

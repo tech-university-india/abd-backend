@@ -71,10 +71,10 @@ const getAllTeamRequests = async (type,
     return teamRequests;
 }
 // service to edit team requests
-const editTeamRequest = async (id, author, content, status, type, createdAt, taggedIndividuals) => {
+const editTeamRequest = async (requestId, author, content, status, type, createdAt, taggedIndividuals) => {
     const updatedRequest = await prisma.Request.update({
         where: {
-            requestId: parseInt(id),
+            requestId: parseInt(requestId),
         },
         data: {
             author,
@@ -89,11 +89,11 @@ const editTeamRequest = async (id, author, content, status, type, createdAt, tag
     return updatedRequest;
 }
 // service to delete team request by team request id
-const deleteTeamRequest = async (id) => {
+const deleteTeamRequest = async (requestId) => {
     const deleteRequest = await prisma.Request.delete(
         {
             where: {
-                requestId: parseInt(id)
+                requestId: parseInt(requestId)
             }
         }
     )

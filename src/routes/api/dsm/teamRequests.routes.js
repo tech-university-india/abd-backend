@@ -157,7 +157,7 @@ router.route('')
     .post(generateValidationMiddleware(requestSchema.createValidTeamRequest), createTeamRequest);
 /**
  * @openapi
- * /api/dsm/team-requests/{id}:
+ * /api/dsm/team-requests/{requestId}:
  *   put:
  *     tags:
  *       - team-requests
@@ -165,7 +165,7 @@ router.route('')
  *     description: Create a team request
 *     parameters:
  *       - in: path
- *         name: id
+ *         name: requestId
  *         schema:
  *           type: integer
  *         required: true
@@ -217,7 +217,7 @@ router.route('')
  *     description: Delete a team request
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: requestId
  *         schema:
  *           type: integer
  *         required: true
@@ -226,13 +226,13 @@ router.route('')
  *       204:
  *         description: team request deleted successfully
  *       400:
- *         description: Bad request if not acceptable id is passed
+ *         description: Bad request if not acceptable requestId is passed
  *       404:
- *         description: Not found if no team request found with id
+ *         description: Not found if no team request found with irequestIdd
  *       500:
  *         description: Internal server error
 */
-router.route('/:id')
+router.route('/:requestId')
     .put(parseIntIdParam,generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
     .delete(parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
 module.exports = router;
