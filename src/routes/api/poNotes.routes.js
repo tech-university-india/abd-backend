@@ -8,6 +8,7 @@ const {
 } = require('../../controllers/poNotes.controller');
 const { generateValidationMiddleware } = require('../../middlewares/validation');
 const poNotesSchema = require('../../schemas/poNotesSchema');
+const {paramParser} = require('../../middlewares/paramParser');
 
 /**
  * @openapi
@@ -298,31 +299,30 @@ router.route('')
  *         description: Internal server error
 */
 
-// to handle string type "id" in params
-const parseIntIdParam = (req, res, next) => {
-  req.params.id = parseInt(req.params.id, 10);
-  next();
+const requiredParams = {
+  id:'number'
 };
 
 // to validate params using joi
 const paramValidationMiddleware = generateValidationMiddleware(poNotesSchema.poNotesParamSchema, 'params');
+const paramParsingMiddleware = paramParser(requiredParams);
 
 router.route('/:id')
   .get(
     paramValidationMiddleware,
-    parseIntIdParam,
+    paramParsingMiddleware,
     detailPONote
   )
   .patch(
     paramValidationMiddleware,
     generateValidationMiddleware(poNotesSchema.patchPONoteSchema),
-    parseIntIdParam,
+    paramParsingMiddleware,
     editPONote
   )
   .delete(
     paramValidationMiddleware,
     generateValidationMiddleware(poNotesSchema.deletePONoteSchema),
-    parseIntIdParam,
+    paramParsingMiddleware,
     deletePONote
   );
 
