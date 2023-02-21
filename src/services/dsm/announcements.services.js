@@ -68,6 +68,16 @@ const createAnnouncement = async (author, content) => {
   * @throws {HttpError} - Throws an error if announcement not found
 */
 const editAnnouncement = async (announcementId, content) => {
+  const availableAnnouncement = await prisma.Announcement.findUnique({
+    where: {
+      announcementId
+    },
+    ...selectOnlyValidAnnouncementFields
+  });
+  if (!availableAnnouncement) {
+    throw new HttpError(404, 'Announcement not found');
+  }
+  //TODO: Can be optimised further
   const announcement = await prisma.Announcement.update({
     where: {
       announcementId
@@ -77,9 +87,6 @@ const editAnnouncement = async (announcementId, content) => {
     },
     ...selectOnlyValidAnnouncementFields
   });
-  if (!announcement) {
-    throw new HttpError(404, 'Announcement not found');
-  }
   return announcement;
 };
 
@@ -90,7 +97,7 @@ const editAnnouncement = async (announcementId, content) => {
   * @throws {HttpError} - Throws an error if announcement not found
 */
 const deleteAnnouncement = async (announcementId) => {
-  const announcement = await prisma.Announcement.delete({
+  const announcement = await prisma.Announcement.findUnique({
     where: {
       announcementId
     },
@@ -99,6 +106,13 @@ const deleteAnnouncement = async (announcementId) => {
   if (!announcement) {
     throw new HttpError(404, 'Announcement not found');
   }
+  // TODO: Can be optimised further
+  await prisma.Announcement.delete({
+    where: {
+      announcementId
+    },
+    ...selectOnlyValidAnnouncementFields
+  });
 };
 
 module.exports={
