@@ -1,4 +1,5 @@
 const prisma = require('../../prismaClient');
+const { HttpError } = require('../../errors');
 const prismaUtils = require('../../utils/prismaUtils');
 const selectOnlyValidTeamrequestsFields = {
   select: {
@@ -71,6 +72,9 @@ const editTeamRequest = async (requestId, author, content, status, type, created
     },
     ...selectOnlyValidTeamrequestsFields
   });
+  if (!updatedRequest) {
+    throw new HttpError(404, 'Announcement not found');
+  }
   return updatedRequest;
 };
 // service to delete team request by team request id
@@ -82,6 +86,9 @@ const deleteTeamRequest = async (requestId) => {
       }
     }
   );
+  if (!deleteRequest) {
+    throw new HttpError(404, 'Announcement not found');
+  }
   return deleteRequest;
 };
 module.exports = { createValidTeamRequest, getAllTeamRequests, editTeamRequest, deleteTeamRequest };
