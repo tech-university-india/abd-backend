@@ -21,8 +21,7 @@ const editTeamRequest = joi.object(
     author: joi
       .string()
       .min(1)
-      .max(1500)
-      .required(),
+      .max(1500),
     content: joi
       .string()
       .min(1)

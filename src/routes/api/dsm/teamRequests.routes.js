@@ -240,6 +240,6 @@ const paramParsingMiddleware = paramParser(requiredParams);
 
 
 router.route('/:requestId')
-  .put(paramParsingMiddleware,generateValidationMiddleware(parseIntIdParam,requestSchema.teamRequestsParamSchema),generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
-  .delete(paramParsingMiddleware,parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
+  .put(paramParsingMiddleware,generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
+  .delete(paramParsingMiddleware,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
 module.exports = router;
