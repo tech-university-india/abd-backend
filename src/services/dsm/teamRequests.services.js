@@ -61,7 +61,7 @@ const editTeamRequest = async (requestId, author, content, status, type, created
   console.log('edit',requestId);
   const updatedRequest = await prisma.Request.update({
     where: {
-      requestId: parseInt(requestId),
+      requestId: requestId,
     },
     data: {
       author,
@@ -83,7 +83,7 @@ const deleteTeamRequest = async (requestId) => {
   const deleteRequest = await prisma.Request.delete(
     {
       where: {
-        requestId: parseInt(requestId)
+        requestId: requestId
       }
     }
   );
