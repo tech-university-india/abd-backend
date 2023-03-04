@@ -44,6 +44,7 @@ model CelebrationReactedUser {
 model Celebration {
   celebrationId Int      @id @unique @default(autoincrement())
   author    String  // user UUID
+  isAnonymous   Boolean   @default(false)
   content   String   @db.VarChar(300)
   type  CelebrationType   // Enum - CelebrationType
   reaction  CelebrationReactedUser[]
