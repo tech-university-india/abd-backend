@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { listTeamRequests, createTeamRequest, editTeamRequest, deleteTeamRequest } = require('../../../controllers/dsm/teamRequests.controller');
-const { parseIntIdParam } = require('../../../utils/paramsHandling');
 const { generateValidationMiddleware } = require('../../../middlewares/validation');
 const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
 const { paramParser } = require('../../../middlewares/paramParser');

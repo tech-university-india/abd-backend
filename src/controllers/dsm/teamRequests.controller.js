@@ -8,7 +8,7 @@ const createTeamRequest = async (req, res, next) => {
   }
   catch(error)
   {
-    res.status(400).json({error: error.message});
+    next(error);
   }
 };
 // controller for listing all team requests
