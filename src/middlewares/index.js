@@ -1,7 +1,7 @@
 const { HttpError } = require('../errors');
 const joi = require('joi');
 const { Prisma } = require('@prisma/client');
-
+const {ErrorCodeRecordNotExist} = require('../constants/index.js');
 // ERROR HANDLING MIDDLEWARE
 // here handle all the errors,
 // either coming from the routes/controllers/services
@@ -25,7 +25,7 @@ function errorHandlingMiddleware(err, req, res, next) {
   case Prisma.PrismaClientKnownRequestError: {
     // seperatly handling the internal db or query errors
     // thrown prisma  ("2***" error codes)
-    if(err.code === 'P2025') {
+    if(err.code === ErrorCodeRecordNotExist) {
       return res.status(404).json({ message: 'Record to delete does not exist' });
     } else
     if ((/2\d{3}/g).exec(err.code)) {

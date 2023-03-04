@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { listTeamRequests, createTeamRequest, editTeamRequest, deleteTeamRequest } = require('../../../controllers/dsm/teamRequests.controller');
 const { parseIntIdParam } = require('../../../utils/paramsHandling');
-const { generateValidationMiddleware } = require('../../../middlewares/validation')
+const { generateValidationMiddleware } = require('../../../middlewares/validation');
 const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
 /**
  * @openapi
@@ -152,8 +152,8 @@ const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
  *         description: Internal server error
 */
 router.route('')
-    .get(generateValidationMiddleware(requestSchema.dsmRequestQuerySchema,'query'),listTeamRequests)
-    .post(generateValidationMiddleware(requestSchema.createValidTeamRequest), createTeamRequest);
+  .get(generateValidationMiddleware(requestSchema.dsmRequestQuerySchema,'query'),listTeamRequests)
+  .post(generateValidationMiddleware(requestSchema.createValidTeamRequest), createTeamRequest);
 /**
  * @openapi
  * /api/dsm/team-requests/{requestId}:
@@ -227,11 +227,13 @@ router.route('')
  *       400:
  *         description: Bad request if not acceptable requestId is passed
  *       404:
- *         description: Not found if no team request found with irequestIdd
+ *         description: Not found if no team request found with requestIdd
  *       500:
  *         description: Internal server error
 */
+
+
 router.route('/:requestId')
-    .put(parseIntIdParam,generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
-    .delete(parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
+  .put(generateValidationMiddleware(parseIntIdParam,requestSchema.teamRequestsParamSchema),generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
+  .delete(parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
 module.exports = router;

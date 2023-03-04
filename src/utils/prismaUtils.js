@@ -44,10 +44,39 @@ const getStatusQueryObject = (status) => {
     status
   };
 };
-
+const queryParamFilterTeamRequests= (type,
+  author,
+  startDate,
+  endDate,
+  searchKeyword,
+  status)=>
+{
+  let filterObj = {};
+  // using query params for filter requests with startDate, endDate, search keyword, status, page , limit and author) 
+  filterObj = startDate ? {
+    ...filterObj, ...getDateRangeObject(startDate, endDate)
+  } : filterObj;
+  filterObj = searchKeyword ? {
+    ...filterObj, content: {
+      contains: searchKeyword,
+      mode: 'insensitive',
+    }
+  } : filterObj;
+  filterObj = status ? {
+    ...filterObj, ...getStatusQueryObject(status)
+  } : filterObj;
+  filterObj = type ? {
+    ...filterObj, type
+  } : filterObj;
+  filterObj = author ? {
+    ...filterObj,author:author
+  } : filterObj;
+  return filterObj;
+};
 module.exports = {
   getPaginationObject,
   getStatusQueryObject,
   getSearchKeywordObject,
-  getDateRangeObject
+  getDateRangeObject,
+  queryParamFilterTeamRequests
 };

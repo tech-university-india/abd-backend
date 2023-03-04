@@ -38,13 +38,13 @@ const editTeamRequest = joi.object(
       .valid('PENDING', 'APPROVED', 'REJECTED')
 
   }
-)
+);
 const deleteTeamRequest = joi.object({
   id: joi
     .number()
     .integer()
     .min(1)
-})
+});
 const dsmRequestQuerySchema = joi.object({
   page: joi
     .number()
@@ -73,4 +73,9 @@ const dsmRequestQuerySchema = joi.object({
     .min(1)
     .max(1500)
 }).and('page', 'limit').with('endDate', 'startDate');
-module.exports = { createValidTeamRequest, editTeamRequest, deleteTeamRequest, dsmRequestQuerySchema };
+const teamRequestsParamSchema = joi.object({
+  id: joi.number()
+    .integer()
+    .min(1)
+});
+module.exports = { createValidTeamRequest, editTeamRequest, deleteTeamRequest, dsmRequestQuerySchema,teamRequestsParamSchema };
