@@ -63,7 +63,7 @@ const updateCelebrationById = async (celebrationId, content, type) => {
     ...selectOnlyValidCelebrationBoardFields
   }
   );
-  if (updateCelebrationById.count === 0) throw new HttpError(404, 'No Record Found');
+  if (!updatedCelebration) throw new HttpError(404, 'No Record Found');
   return updatedCelebration;
 };
 
@@ -76,7 +76,7 @@ const deleteCelebrationById = async (celebrationId) => {
     ...selectOnlyValidCelebrationBoardFields
   }
   );
-  if (deletedCelebration.count === 0) throw new HttpError(404, 'No Record Found');
+  if (!deletedCelebration) throw new HttpError(404, 'No Record Found');
   return deletedCelebration;
 };
 
