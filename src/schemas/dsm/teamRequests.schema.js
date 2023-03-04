@@ -25,8 +25,7 @@ const editTeamRequest = joi.object(
     content: joi
       .string()
       .min(1)
-      .max(1500)
-      .required(),
+      .max(1500),
     taggedIndividuals: joi
       .array().items(joi.number().integer()),
     type: joi
