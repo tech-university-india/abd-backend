@@ -3,6 +3,7 @@ const { listTeamRequests, createTeamRequest, editTeamRequest, deleteTeamRequest 
 const { parseIntIdParam } = require('../../../utils/paramsHandling');
 const { generateValidationMiddleware } = require('../../../middlewares/validation');
 const requestSchema = require('../../../schemas/dsm/teamRequests.schema');
+const { paramParser } = require('../../../middlewares/paramParser');
 /**
  * @openapi
  * components:
@@ -231,9 +232,14 @@ router.route('')
  *       500:
  *         description: Internal server error
 */
+const requiredParams = {
+  requestId: 'number'
+};
+const paramParsingMiddleware = paramParser(requiredParams);
+
 
 
 router.route('/:requestId')
-  .put(generateValidationMiddleware(parseIntIdParam,requestSchema.teamRequestsParamSchema),generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
-  .delete(parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
+  .put(paramParsingMiddleware,generateValidationMiddleware(parseIntIdParam,requestSchema.teamRequestsParamSchema),generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
+  .delete(paramParsingMiddleware,parseIntIdParam,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
 module.exports = router;
