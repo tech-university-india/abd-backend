@@ -34,7 +34,6 @@ const editTeamRequest = joi.object(
     status: joi
       .string()
       .valid('PENDING', 'APPROVED', 'REJECTED')
-
   }
 );
 const deleteTeamRequest = joi.object({
