@@ -58,7 +58,6 @@ const getAllTeamRequests = async (type,
 };
 // service to edit team requests
 const editTeamRequest = async (requestId, author, content, status, type, createdAt, taggedIndividuals) => {
-  
   const updatedRequest = await prisma.Request.update({
     where: {
       requestId: requestId,
