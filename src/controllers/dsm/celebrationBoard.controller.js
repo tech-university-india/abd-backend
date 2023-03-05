@@ -82,6 +82,18 @@ const updateReaction = async (req, res, next) => {
   }
 };
 
+const getReaction = async (req, res, next) => {
+  try {
+    const celebrationId = parseInt(req.params.id);
+    const reaction =
+      await celebrationBoardServices.getReaction(celebrationId, userId);
+    res.status(200).json(reaction);
+  }
+  catch (er) {
+    next(er);
+  }
+};
+
 
 module.exports = {
   listCelebrations,
@@ -90,4 +102,5 @@ module.exports = {
   updateCelebration,
   deleteCelebration,
   updateReaction,
+  getReaction
 };

@@ -131,16 +131,27 @@ const updateReaction = async (celebrationId, userId, isReacted) => {
       },
       ...selectOnlyValidReactionFields
     }) :
-    await prisma.celebrationReactedUser.delete({
+    await prisma.celebrationReactedUser.deleteMany({
       where: {
         celebrationId,
         userId
       },
-      ...selectOnlyValidReactionFields
     });
   if (!isReacted & updatedReaction.count === 0) throw new HttpError(404, 'No Reaction Found');
   return updatedReaction;
 };
+
+const getReaction = async (celebrationId, userId) => {
+  const reaction = await prisma.celebrationReactedUser.findMany({
+    where: {
+      celebrationId,
+      userId
+    },
+    ...selectOnlyValidReactionFields
+  });
+  return reaction;
+};
+
 
 module.exports = {
   listCelebrations,
@@ -148,5 +159,6 @@ module.exports = {
   createCelebration,
   updateCelebrationById,
   deleteCelebrationById,
-  updateReaction
+  updateReaction,
+  getReaction
 };

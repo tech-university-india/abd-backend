@@ -5,7 +5,8 @@ const {
   createCelebration,
   updateCelebration,
   deleteCelebration,
-  updateReaction
+  updateReaction,
+  getReaction
 } = require('../../../controllers/dsm/celebrationBoard.controller');
 const { generateValidationMiddleware } = require('../../../middlewares/validation');
 const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
@@ -224,6 +225,31 @@ router.delete('/:id', paramValidationMiddleware, deleteCelebration);
 /**
  * @openapi
  * /api/dsm/celebrations/{id}/react:
+ *  get:
+ *    tags:
+ *      - celebration reactions
+ *    summary: Get a reaction of celebration
+ *    description: Get a reaction by celebration id
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Unique identifier of the celebration
+ *    responses:
+ *      '200':
+ *        description: Reaction found
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Celebration'
+ *      '400':
+ *        description: Bad request if unacceptable id is passed
+ *      '404':
+ *        description: Not found if no celebration found with id
+ *      '500':
+ *        description: Internal server error
  *  patch:
  *    tags:
  *      - celebration reactions
@@ -261,6 +287,9 @@ router.delete('/:id', paramValidationMiddleware, deleteCelebration);
  *      '500':
  *        description: Internal server error
 */
+
+// GET /api/dsm/celebration/:id/react
+router.get('/:id/react', paramValidationMiddleware, getReaction);
 
 // PATCH /api/dsm/celebration/:id/react
 router.patch('/:id/react', paramValidationMiddleware, generateValidationMiddleware(celebrationsSchema.patchReactionSchema), updateReaction);
