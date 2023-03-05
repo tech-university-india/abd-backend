@@ -47,7 +47,6 @@ const editTeamRequest = async (req, res, next) => {
   try{
     const { requestId } = req.params;
     const { author, content, status, type, createdAt, taggedIndividuals } = req.body;
-    console.log('editc',requestId);
     const updatedRequest = await teamRequestsServices.editTeamRequest(requestId, author, content, status, type, createdAt, taggedIndividuals);
     res.status(200).json(updatedRequest);
   }
