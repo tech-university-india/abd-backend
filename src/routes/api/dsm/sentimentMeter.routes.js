@@ -45,7 +45,7 @@ const sentimentMeterSchema = require('../../../schemas/dsm/sentimentMeterSchema'
 
 /**
  * @openapi
- * /api/dsm-sentiment-meter:
+ * /api/dsm/sentiment-meter:
  *   get:
  *     summary: Get all sentimentMeter
  *     tags:
@@ -110,7 +110,7 @@ router.post(
 
 /**
  * @openapi
- * /api/dsm-sentiment-meter/date/{createdAt}:
+ * /api/dsm/sentiment-meter/date/{createdAt}:
  *   get:
  *     summary: Get sentimentMeter by date
  *     tags:
@@ -147,7 +147,7 @@ router.get(
 
 /**
  * @openapi
- * /api/dsm-sentiment-meter/{id}:
+ * /api/dsm/sentiment-meter/{id}:
  *   get:
  *     summary: Get sentimentMeter by id
  *     tags:
