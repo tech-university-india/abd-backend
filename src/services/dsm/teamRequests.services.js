@@ -58,7 +58,7 @@ const getAllTeamRequests = async (type,
 };
 // service to edit team requests
 const editTeamRequest = async (requestId, author, content, status, type, createdAt, taggedIndividuals) => {
-  console.log('edit',requestId);
+  
   const updatedRequest = await prisma.Request.update({
     where: {
       requestId: requestId,
@@ -74,7 +74,7 @@ const editTeamRequest = async (requestId, author, content, status, type, created
     ...selectOnlyValidTeamrequestsFields
   });
   if (!updatedRequest) {
-    throw new HttpError(404, 'Announcement not found');
+    throw new HttpError(404, 'Team Request not found');
   }
   return updatedRequest;
 };
@@ -88,7 +88,7 @@ const deleteTeamRequest = async (requestId) => {
     }
   );
   if (!deleteRequest) {
-    throw new HttpError(404, 'Announcement not found');
+    throw new HttpError(404, 'Team Request not found');
   }
   return deleteRequest;
 };
