@@ -1,9 +1,9 @@
-const { HttpError } = require("../../errors");
-const prisma = require("../../prismaClient");
+const { HttpError } = require('../../errors');
+const prisma = require('../../prismaClient');
 
 const selectOnlyValidSentimentMeterFields = {
   select: {
-    sentimentMeterId: true,
+    sentimentId: true,
     author: true,
     sentiment: true,
     createdAt: true,
@@ -20,37 +20,37 @@ const createSentiment = async (author, sentiment) => {
   return newSentiment;
 };
 
-const getSentimentById = async (sentimentMeterId) => {
+const getSentimentById = async (sentimentId) => {
   const sentiment = await prisma.sentimentMeter.findUnique({
     where: {
-      sentimentMeterId,
+      sentimentId,
     },
     ...selectOnlyValidSentimentMeterFields,
   });
   if (!sentiment) {
-    throw new HttpError(404, `Sentiment with id ${sentimentMeterId} not found`);
+    throw new HttpError(404, `Sentiment with id ${sentimentId} not found`);
   }
   return sentiment;
 };
 
-const updateSentimentById = async (sentimentMeterId, sentiment) => {
+const updateSentimentById = async (sentimentId, sentiment) => {
   const updatedSentiment = await prisma.sentimentMeter.update({
     where: {
-      sentimentMeterId,
+      sentimentId,
     },
     data: {
       sentiment,
     },
     ...selectOnlyValidSentimentMeterFields,
   });
-  if (updatedSentiment.count === 0) throw new HttpError(404, "No Record Found");
+  if (updatedSentiment.count === 0) throw new HttpError(404, 'No Record Found');
   return updatedSentiment;
 };
 
 //count of each sentiment by date
 const countSentimentByDate = async (createdAt) => {
   const countSentiment = await prisma.sentimentMeter.groupBy({
-    by: ["sentiment"],
+    by: ['sentiment'],
     where: {
       //greater than or equal to and less than or equal to next day
       createdAt: {
@@ -66,7 +66,7 @@ const countSentimentByDate = async (createdAt) => {
   });
 
   if (countSentiment.length === 0)
-    throw new HttpError(404, "No Data found for the date" + createdAt);
+    throw new HttpError(404, 'No Data found for the date' + createdAt);
 
   const fullCount = countSentiment.reduce((acc, curr) => {
     acc += curr._count.sentiment;

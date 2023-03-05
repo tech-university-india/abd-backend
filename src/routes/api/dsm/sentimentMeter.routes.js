@@ -1,15 +1,15 @@
-const router = require("express").Router();
+const router = require('express').Router();
 const {
   createSentiment,
   detailSentiment,
   updateSentiment,
   countSentimentByDate,
   getAllSentiment,
-} = require("../../../controllers/dsm/sentimentMeter.controller");
+} = require('../../../controllers/dsm/sentimentMeter.controller');
 const {
   generateValidationMiddleware,
-} = require("../../../middlewares/validation");
-const sentimentMeterSchema = require("../../../schemas/dsm/sentimentMeterSchema");
+} = require('../../../middlewares/validation');
+const sentimentMeterSchema = require('../../../schemas/dsm/sentimentMeterSchema');
 
 /**
  * @openapi
@@ -23,7 +23,7 @@ const sentimentMeterSchema = require("../../../schemas/dsm/sentimentMeterSchema"
  *         - sentiment
  *         - createdAt
  *       properties:
- *         sentimentMeterId:
+ *         sentimentId:
  *           type: integer
  *           description: Unique identifier of the sentimentMeter
  *         author:
@@ -78,7 +78,7 @@ const sentimentMeterSchema = require("../../../schemas/dsm/sentimentMeterSchema"
  *               - sentiment
  *             properties:
  *               author:
- *                 type: integer
+ *                 type: string
  *                 description: Unique identifier of the author
  *               sentiment:
  *                 type: string
@@ -101,9 +101,9 @@ const sentimentMeterSchema = require("../../../schemas/dsm/sentimentMeterSchema"
  *         description: Internal server error
  */
 
-router.get("/", getAllSentiment);
+router.get('/', getAllSentiment);
 router.post(
-  "/",
+  '/',
   generateValidationMiddleware(sentimentMeterSchema.createSentiment),
   createSentiment
 );
@@ -140,8 +140,8 @@ router.post(
  */
 
 router.get(
-  "/date/:createdAt",
-  generateValidationMiddleware(sentimentMeterSchema.dateSchema, "params"),
+  '/date/:createdAt',
+  generateValidationMiddleware(sentimentMeterSchema.dateSchema, 'params'),
   countSentimentByDate
 );
 
@@ -214,13 +214,13 @@ router.get(
  */
 
 router.get(
-  "/:id",
-  generateValidationMiddleware(sentimentMeterSchema.getByIdSchema, "params"),
+  '/:id',
+  generateValidationMiddleware(sentimentMeterSchema.getByIdSchema, 'params'),
   detailSentiment
 );
 router.patch(
-  "/:id",
-  generateValidationMiddleware(sentimentMeterSchema.patchSentiment, "params"),
+  '/:id',
+  generateValidationMiddleware(sentimentMeterSchema.patchSentiment, 'params'),
   updateSentiment
 );
 module.exports = router;
