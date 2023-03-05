@@ -38,6 +38,8 @@ model CelebrationReactedUser {
   userId String
   celebrationId Int
   request Celebration @relation(fields: [celebrationId], references: [celebrationId])
+  
+  @@unique([userId, celebrationId])
 }
 
 // Celebration Model
