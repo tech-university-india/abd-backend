@@ -14,7 +14,6 @@ describe('When team members fetch all celebrations', () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(celebrations);
   });
-
   it('should return a 500 status code if there is an error', async () => {
     jest.spyOn(celebrationBoardServices, 'listCelebrations').mockRejectedValue(new Error('Bad Request'));
     const req = {};
@@ -43,7 +42,6 @@ describe('When team members fetch a celebration by id', () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(celebration);
   });
-
   it('should return a 500 status code if there is an error', async () => {
     jest.spyOn(celebrationBoardServices, 'getCelebrationById').mockRejectedValue(new Error('Bad Request'));
     const req = {
@@ -77,7 +75,6 @@ describe('When team members create a celebration', () => {
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.json).toHaveBeenCalledWith({ message: 'Celebration created successfully', newCelebration });
   });
-
   it('should return a 500 status code if there is an error', async () => {
     jest.spyOn(celebrationBoardServices, 'createCelebration').mockRejectedValue(new Error('Bad Request'));
     const req = {
@@ -116,7 +113,6 @@ describe('When team members update a celebration', () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ message: 'Celebration updated successfully', updatedCelebration });
   });
-
   it('should return a 500 status code if there is an error', async () => {
     jest.spyOn(celebrationBoardServices, 'updateCelebrationById').mockRejectedValue(new Error('Bad Request'));
     const req = {
@@ -150,7 +146,6 @@ describe('When team members delete a celebration', () => {
     await celebrationBoardController.deleteCelebration(req, res, next);
     expect(res.status).toHaveBeenCalledWith(204);
   });
-
   it('should return a 500 status code if there is an error', async () => {
     jest.spyOn(celebrationBoardServices, 'deleteCelebrationById').mockRejectedValue(new Error('Bad Request'));
     const req = {

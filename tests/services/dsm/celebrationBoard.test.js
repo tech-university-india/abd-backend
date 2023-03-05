@@ -16,6 +16,7 @@ describe('Celebration Board Services', () => {
       await expect(celebrationBoardServices.listCelebrations()).rejects.toThrow('Bad Request');
     });
   });
+
   describe('getCelebrationById', () => {
     it('should return a celebration by id', async () => {
       const expected = celebrations[0];
@@ -44,8 +45,8 @@ describe('Celebration Board Services', () => {
       jest.spyOn(prisma.Celebration, 'create').mockRejectedValue(new Error('Bad Request'));
       await expect(celebrationBoardServices.createCelebration(celebrations[0])).rejects.toThrow('Bad Request');
     });
-  }
-  );
+  });
+
   describe('updateCelebration', () => {
     it('should update a celebration', async () => {
       const expected = celebrations[0];
@@ -58,6 +59,7 @@ describe('Celebration Board Services', () => {
       await expect(celebrationBoardServices.updateCelebrationById(1, 'updated celebration')).rejects.toThrow(new HttpError(404, 'No Record Found'));
     });
   });
+
   describe('deleteCelebration', () => {
     it('should delete a celebration', async () => {
       const expected = celebrations[0];

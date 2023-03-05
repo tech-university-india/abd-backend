@@ -1,8 +1,6 @@
 const { HttpError } = require('../../errors');
 const prisma = require('../../prismaClient');
 
-// const userId = 'anonymous';
-
 const selectOnlyValidReactionFields = {
   select: {
     reactionId: true,
@@ -108,7 +106,6 @@ const updateCelebrationById = async (celebrationId, content, type, isAnonymous) 
 
 // delete a celebration
 const deleteCelebrationById = async (celebrationId) => {
-  // deleting all the reacted users for the celebration
   await prisma.celebrationReactedUser.deleteMany({
     where: {
       celebrationId
