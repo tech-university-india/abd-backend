@@ -70,4 +70,31 @@ describe('getDateRangeObject', () => {
     const returnedVal = prismaUtils.getPaginationObject(page, limit);
     expect(returnedVal).toEqual(null);
   });
+  describe('queryParamFilterTeamRequests', () => {
+    it('should return valid object when author, start Date,end Date, search keyword and status is passed', () => {
+      const mockFilter={
+        type:'MEETING',
+        author:'string',
+        startDate:'2023-03-04',
+        endDate:'2023-03-04',
+        searchKeyword:'string',
+        status:'PENDING'
+      };
+      const mockFilterResult={
+        'author': 'string',
+        'content':  {
+          'contains': 'string',
+          'mode': 'insensitive',
+        },
+        'createdAt':  {
+          'gte':  new Date('2023-03-04'),
+          'lt': new Date('2023-03-05'),
+        },
+        'status': 'PENDING',
+        'type': 'MEETING',
+      };
+      const returnedVal = prismaUtils.queryParamFilterTeamRequests(...Object.values(mockFilter));
+      expect(returnedVal).toEqual(mockFilterResult);
+    });
+  }); 
 });
