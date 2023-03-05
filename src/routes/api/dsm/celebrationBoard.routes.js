@@ -4,7 +4,8 @@ const {
   detailCelebration,
   createCelebration,
   updateCelebration,
-  deleteCelebration
+  deleteCelebration,
+  updateReaction
 } = require('../../../controllers/dsm/celebrationBoard.controller');
 const { generateValidationMiddleware } = require('../../../middlewares/validation');
 const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
@@ -28,6 +29,9 @@ const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
  *     author:
  *      type: string
  *      description: User id of the author
+ *     isAnonymous:
+ *      type: boolean
+ *      description: Is the author anonymous
  *     content:
  *      type: string
  *      description: Content of the celebration
@@ -37,6 +41,14 @@ const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
  *      enum:
  *       - CELEBRATION
  *       - IMPEDIMENT
+ *     _count:
+ *      type: object
+ *      properties:
+ *       reaction:
+ *        type: integer
+ *        description: Number of reactions
+ *      required:
+ *        - reaction
  *     createdAt:
  *      type: string
  *      format: date-time
@@ -76,6 +88,7 @@ const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
  *            required:
  *              - content
  *              - type
+ *              - isAnonymous
  *            properties:
  *             content:
  *              type: string
@@ -83,6 +96,9 @@ const celebrationsSchema = require('../../../schemas/dsm/celebrationsSchema');
  *             type:
  *              type: string
  *              description: Type of the celebration
+ *             isAnonymous:
+ *              type: boolean
+ *              description: Is the author anonymous
  *    responses:
  *       '201':
  *         description: Celebration created
@@ -155,6 +171,9 @@ router.post('/', generateValidationMiddleware(celebrationsSchema.createCelebrati
  *              type:
  *                type: string
  *                description: Type of the celebration
+ *              isAnonymous:
+ *                type: boolean
+ *                description: Is the author anonymous
  *    responses:
  *      '200':
  *        description: Celebration updated
@@ -196,10 +215,55 @@ const paramValidationMiddleware = generateValidationMiddleware(celebrationsSchem
 // GET /api/dsm/celebration/:id
 router.get('/:id', paramValidationMiddleware, detailCelebration);
 
-// PUT /api/dsm/celebration/:id
-router.patch('/:id', paramValidationMiddleware, updateCelebration);
+// PATCH /api/dsm/celebration/:id
+router.patch('/:id', paramValidationMiddleware, generateValidationMiddleware(celebrationsSchema.patchcelebrationSchema), updateCelebration);
 
 // DELETE /api/dsm/celebration/:id
 router.delete('/:id', paramValidationMiddleware, deleteCelebration);
+
+/**
+ * @openapi
+ * /api/dsm/celebrations/{id}/react:
+ *  patch:
+ *    tags:
+ *      - celebration reactions
+ *    summary: Handle celebration reactions
+ *    description: Partial update an celebration reaction
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: integer
+ *        required: true
+ *        description: Unique identifier of the celebration
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              isReacted:
+ *                type: boolean
+ *                description: Is the user reacted or unreacted to the celebration
+ *      
+ *    responses:
+ *      '200':
+ *        description: Reaction updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Celebration'
+ *      '400':
+ *        description: Bad request if unacceptable id is passed
+ *      '404':
+ *        description: Not found if no celebration found with id
+ *      '500':
+ *        description: Internal server error
+*/
+
+// PATCH /api/dsm/celebration/:id/react
+router.patch('/:id/react', paramValidationMiddleware, generateValidationMiddleware(celebrationsSchema.patchReactionSchema), updateReaction);
+
 
 module.exports = router;
