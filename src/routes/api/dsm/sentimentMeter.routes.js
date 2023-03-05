@@ -27,7 +27,7 @@ const sentimentMeterSchema = require('../../../schemas/dsm/sentimentMeterSchema'
  *           type: integer
  *           description: Unique identifier of the sentimentMeter
  *         author:
- *           type: integer
+ *           type: string
  *           description: Unique identifier of the author
  *         sentiment:
  *           type: string
