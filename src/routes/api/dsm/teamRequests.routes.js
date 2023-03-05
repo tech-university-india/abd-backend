@@ -235,9 +235,6 @@ const requiredParams = {
   requestId: 'number'
 };
 const paramParsingMiddleware = paramParser(requiredParams);
-
-
-
 router.route('/:requestId')
   .put(paramParsingMiddleware,generateValidationMiddleware(requestSchema.editTeamRequest), editTeamRequest)
   .delete(paramParsingMiddleware,generateValidationMiddleware(requestSchema.deleteTeamRequest), deleteTeamRequest);
