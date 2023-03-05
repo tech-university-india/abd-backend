@@ -1,5 +1,9 @@
 const celebrationBoardServices = require('../../services/dsm/celebrationBoard.services');
 
+// userId is hardcoded for now
+// but, actual userId will be passed from the frontend (in header)
+const userId = 'anonymous';
+
 // controller to handle GET request for listing all celebrations
 const listCelebrations = async (req, res, next) => {
   try {
@@ -28,10 +32,9 @@ const detailCelebration = async (req, res, next) => {
 // controller to handle POST request for creating a celebration
 const createCelebration = async (req, res, next) => {
   try {
-    const author = 'anonymous';
-    const { content, type } = req.body;
+    const { content, type, isAnonymous } = req.body;
     const newCelebration =
-      await celebrationBoardServices.createCelebration(author, content, type);
+      await celebrationBoardServices.createCelebration(userId, content, type, isAnonymous);
     res.status(201).json({ message: 'Celebration created successfully', newCelebration });
   }
   catch (er) {
@@ -43,9 +46,9 @@ const createCelebration = async (req, res, next) => {
 const updateCelebration = async (req, res, next) => {
   try {
     const celebrationId = parseInt(req.params.id);
-    const { content, type } = req.body;
+    const { content, type, isAnonymous } = req.body;
     const updatedCelebration =
-      await celebrationBoardServices.updateCelebrationById(celebrationId, content, type);
+      await celebrationBoardServices.updateCelebrationById(celebrationId, content, type, isAnonymous);
     res.status(200).json({ message: 'Celebration updated successfully', updatedCelebration });
   }
   catch (er) {
@@ -65,10 +68,26 @@ const deleteCelebration = async (req, res, next) => {
   }
 };
 
+// controller to handle PATCH request for updating a reactions
+const updateReaction = async (req, res, next) => {
+  try {
+    const celebrationId = parseInt(req.params.id);
+    const { isReacted } = req.body;
+    const updatedReaction =
+      await celebrationBoardServices.updateReaction(celebrationId, userId, isReacted);
+    res.status(200).json({ message: 'Reaction updated successfully', updatedReaction });
+  }
+  catch (er) {
+    next(er);
+  }
+};
+
+
 module.exports = {
   listCelebrations,
   detailCelebration,
   createCelebration,
   updateCelebration,
   deleteCelebration,
+  updateReaction,
 };

@@ -1,14 +1,50 @@
 const { HttpError } = require('../../errors');
 const prisma = require('../../prismaClient');
 
+// const userId = 'anonymous';
+
+const selectOnlyValidReactionFields = {
+  select: {
+    reactionId: true,
+    celebrationId: true
+  }
+};
+
 const selectOnlyValidCelebrationBoardFields = {
   select: {
     celebrationId: true,
+    isAnonymous: true,
     author: true,
     content: true,
     type: true,
-    createdAt: true,
+    _count: {
+      select: { reaction: true },
+    },
+    reaction: {
+      take: 3,
+      select: {
+        userId: true,
+      }
+    },
+    // reaction: {
+    //   where: {
+    //     userId: userId
+    //   },
+    //   select: {
+    //     reactionId: true
+    //   }
+    // },
+    createdAt: true
   }
+};
+
+const filterByAnonymous = (celebrations) => {
+  return celebrations.map((celebration) => {
+    if (celebration.isAnonymous) {
+      return { ...celebration, author: undefined };
+    }
+    return celebration;
+  });
 };
 
 // get list of all celebrations
@@ -20,7 +56,7 @@ const listCelebrations = async () => {
     ...selectOnlyValidCelebrationBoardFields
   }
   );
-  return celebrations;
+  return filterByAnonymous(celebrations);
 };
 
 // get a celebration by id
@@ -33,14 +69,15 @@ const getCelebrationById = async (celebrationId) => {
   }
   );
   if (!celebration) throw new HttpError(404, 'No Record Found');
-  return celebration;
+  return filterByAnonymous([celebration])[0];
 };
 
 // create a new celebration
-const createCelebration = async (author, content, type) => {
+const createCelebration = async (author, content, type, isAnonymous = false) => {
   const newCelebration = await prisma.Celebration.create({
     data: {
       author,
+      isAnonymous,
       content,
       type,
     },
@@ -51,7 +88,8 @@ const createCelebration = async (author, content, type) => {
 };
 
 // update a celebration
-const updateCelebrationById = async (celebrationId, content, type) => {
+const updateCelebrationById = async (celebrationId, content, type, isAnonymous) => {
+  console.log(celebrationId, content, type, isAnonymous);
   const updatedCelebration = await prisma.Celebration.update({
     where: {
       celebrationId
@@ -59,6 +97,7 @@ const updateCelebrationById = async (celebrationId, content, type) => {
     data: {
       content,
       type,
+      isAnonymous,
     },
     ...selectOnlyValidCelebrationBoardFields
   }
@@ -69,6 +108,12 @@ const updateCelebrationById = async (celebrationId, content, type) => {
 
 // delete a celebration
 const deleteCelebrationById = async (celebrationId) => {
+  // deleting all the reacted users for the celebration
+  await prisma.celebrationReactedUser.deleteMany({
+    where: {
+      celebrationId
+    }
+  });
   const deletedCelebration = await prisma.Celebration.delete({
     where: {
       celebrationId
@@ -80,10 +125,31 @@ const deleteCelebrationById = async (celebrationId) => {
   return deletedCelebration;
 };
 
+const updateReaction = async (celebrationId, userId, isReacted) => {
+  const updatedReaction = isReacted ?
+    await prisma.celebrationReactedUser.create({
+      data: {
+        celebrationId,
+        userId
+      },
+      ...selectOnlyValidReactionFields
+    }) :
+    await prisma.celebrationReactedUser.delete({
+      where: {
+        celebrationId,
+        userId
+      },
+      ...selectOnlyValidReactionFields
+    });
+  if (!isReacted & updatedReaction.count === 0) throw new HttpError(404, 'No Reaction Found');
+  return updatedReaction;
+};
+
 module.exports = {
   listCelebrations,
   getCelebrationById,
   createCelebration,
   updateCelebrationById,
   deleteCelebrationById,
+  updateReaction
 };

@@ -11,6 +11,10 @@ const createCelebrationSchema = joi.object({
     .string()
     .valid('CELEBRATION', 'IMPEDIMENT')
     .required(),
+
+  isAnonymous: joi
+    .valid(true, false)
+    .required(),
 });
 
 const celebrationsParamSchema = joi.object({
@@ -31,4 +35,15 @@ const patchcelebrationSchema = joi.object({
     .valid('CELEBRATION', 'IMPEDIMENT'),
 });
 
-module.exports = { createCelebrationSchema, celebrationsParamSchema, patchcelebrationSchema };
+const patchReactionSchema = joi.object({
+  isReacted: joi
+    .valid(true, false)
+    .required(),
+});
+
+module.exports = {
+  createCelebrationSchema,
+  celebrationsParamSchema,
+  patchcelebrationSchema,
+  patchReactionSchema
+};
