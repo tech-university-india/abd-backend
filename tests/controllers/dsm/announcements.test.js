@@ -1,22 +1,10 @@
 const announcementController = require('../../../src/controllers/dsm/announcements.controller');
 const announcementServices = require('../../../src/services/dsm/announcements.services');
 const getRandomNumber = require('../../../src/utils/randomGenerator');
+const { announcementList, announcementByID } = require('../../../src/mocks/dsm/announcements');
 
 describe('When any team member/leadership or PO himself tries to fetch all the announcements',()=>{
-  const announcements = [
-    {
-      announcementId: 1,
-      author: '1',
-      content: 'This is the first announcement',
-      createdAt: '2021-04-05T11:00:00.000Z'
-    },
-    {
-      announcementId: 2,
-      author: '2',
-      content: 'This is the second announcement',
-      createdAt: '2021-04-05T11:00:00.000Z'
-    }
-  ];
+  const announcements = announcementList;
 
   it('should return array of announcements as objects', async () => {
     const mockReq = {
@@ -53,12 +41,7 @@ describe('When any team member/leadership or PO himself tries to fetch all the a
 });
 
 describe('When any team member/leadership or PO himself tries to fetch an announcement',()=>{
-  const announcement = {
-    announcementId: 1,
-    author: '1',
-    content: 'This is the first announcement',
-    createdAt: '2021-04-05T11:00:00.000Z'
-  };
+  const announcement = announcementByID;
 
   it('should return the announcement object', async () => {
     const mockReq = {
@@ -101,12 +84,7 @@ describe('When any team member/leadership or PO himself tries to fetch an announ
 });
 
 describe('When any team member/leadership or PO himself tries to create an announcements',()=>{
-  const announcement = {
-    announcementId: 1,
-    author: '1',
-    content: 'This is the first announcement',
-    createdAt: '2021-04-05T11:00:00.000Z'
-  };
+  const announcement = announcementByID;
 
   it('should return the announcement object', async () => {
     const mockReq = {
@@ -150,12 +128,7 @@ describe('When any team member/leadership or PO himself tries to create an annou
 });
 
 describe('when the author of the announcement tries to update the announcement',()=>{
-  const announcement = {
-    announcementId: 1,
-    author: '1',
-    content: 'This is the first announcement',
-    createdAt: '2021-04-05T11:00:00.000Z'
-  };
+  const announcement = announcementByID;
 
   xit('should throw error if user is not the author of the announcement', async () => {
   });
