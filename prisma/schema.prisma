@@ -38,12 +38,15 @@ model CelebrationReactedUser {
   userId String
   celebrationId Int
   request Celebration @relation(fields: [celebrationId], references: [celebrationId])
+  
+  @@unique([userId, celebrationId])
 }
 
 // Celebration Model
 model Celebration {
   celebrationId Int      @id @unique @default(autoincrement())
   author    String  // user UUID
+  isAnonymous   Boolean   @default(false)
   content   String   @db.VarChar(300)
   type  CelebrationType   // Enum - CelebrationType
   reaction  CelebrationReactedUser[]
