@@ -20,6 +20,7 @@
     "prisma": "^4.9.0"
   },
   "dependencies": {
+    "@okta/jwt-verifier": "^3.0.1",
     "@prisma/client": "^4.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

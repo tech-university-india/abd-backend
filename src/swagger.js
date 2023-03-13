@@ -12,7 +12,7 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: [path.join(__dirname, 'routes/api/**/*.js')],
+  apis: [path.join(__dirname, 'routes/api/**/*.js'), path.join(__dirname, 'middlewares/auth.js')],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
