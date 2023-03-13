@@ -3,7 +3,7 @@ const userAnonmyous = 'anonymous';
 
 const createSentiment = async (req, res, next) => {
   try {
-    const {sentiment } = req.body;
+    const { sentiment } = req.body;
     const newSentiment = await sentimentMeterService.createSentiment(
       userAnonmyous,
       sentiment
@@ -60,10 +60,23 @@ const getAllSentiment = async (req, res, next) => {
   }
 };
 
+const deleteSentimentById = async (req, res, next) => {
+  try {
+    const sentimentId = parseInt(req.params.id);
+    const deletedSentiment = await sentimentMeterService.deleteSentimentById(
+      sentimentId
+    );
+    res.status(200).json(deletedSentiment);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createSentiment,
   detailSentiment,
   updateSentiment,
   countSentimentByDate,
   getAllSentiment,
+  deleteSentimentById
 };

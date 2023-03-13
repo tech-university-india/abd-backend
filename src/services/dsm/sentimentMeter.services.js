@@ -87,10 +87,20 @@ const getAllSentiment = async () => {
   return allSentiment;
 };
 
+const deleteSentimentById = async (sentimentId) => {
+  const deletedSentiment = await prisma.sentimentMeter.delete({
+    where: {
+      sentimentId,
+    },
+  });
+  if (deletedSentiment.count === 0) throw new HttpError(404, 'No Record Found');
+};
+
 module.exports = {
   createSentiment,
   getSentimentById,
   updateSentimentById,
   countSentimentByDate,
   getAllSentiment,
+  deleteSentimentById
 };

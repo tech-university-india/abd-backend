@@ -5,6 +5,7 @@ const {
   updateSentiment,
   countSentimentByDate,
   getAllSentiment,
+  deleteSentimentById
 } = require('../../../controllers/dsm/sentimentMeter.controller');
 const {
   generateValidationMiddleware,
@@ -223,4 +224,11 @@ router.patch(
   generateValidationMiddleware(sentimentMeterSchema.patchSentiment, 'params'),
   updateSentiment
 );
+
+router.delete(
+  '/:id',
+  generateValidationMiddleware(sentimentMeterSchema.getByIdSchema, 'params'),
+  deleteSentimentById
+);
+
 module.exports = router;
