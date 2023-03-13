@@ -47,12 +47,10 @@ const updateSentimentById = async (sentimentId, sentiment) => {
   return updatedSentiment;
 };
 
-//count of each sentiment by date
 const countSentimentByDate = async (createdAt) => {
   const countSentiment = await prisma.sentimentMeter.groupBy({
     by: ['sentiment'],
     where: {
-      //greater than or equal to and less than or equal to next day
       createdAt: {
         gte: new Date(createdAt),
         lte: new Date(

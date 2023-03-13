@@ -212,6 +212,29 @@ router.get(
  *         description: Bad request
  *       500:
  *         description: Internal server error
+ *   delete:
+ *     summary: Delete sentimentMeter by id
+ *     tags:
+ *       - sentimentMeter
+ *     description: Delete sentimentMeter by id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: Unique identifier of the sentimentMeter
+ *     responses:
+ *       200:
+ *         description: Sentiment deleted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SentimentMeter'
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Internal server error
  */
 
 router.get(
@@ -224,7 +247,6 @@ router.patch(
   generateValidationMiddleware(sentimentMeterSchema.patchSentiment, 'params'),
   updateSentiment
 );
-
 router.delete(
   '/:id',
   generateValidationMiddleware(sentimentMeterSchema.getByIdSchema, 'params'),

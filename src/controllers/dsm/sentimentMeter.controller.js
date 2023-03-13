@@ -63,10 +63,10 @@ const getAllSentiment = async (req, res, next) => {
 const deleteSentimentById = async (req, res, next) => {
   try {
     const sentimentId = parseInt(req.params.id);
-    const deletedSentiment = await sentimentMeterService.deleteSentimentById(
+    await sentimentMeterService.deleteSentimentById(
       sentimentId
     );
-    res.status(200).json(deletedSentiment);
+    res.status(200).json({ message: 'Sentiment deleted' });
   } catch (err) {
     next(err);
   }
