@@ -62,6 +62,7 @@ const createAnnouncement = async (req, res, next) => {
 */
 const editAnnouncement = async (req, res, next) => {
   try {
+    //TODO: check if the user is the author of the announcement
     const announcementId = req.params.id;
     const content = req.body.content;
     const resultAnnouncement = await announcementServices.editAnnouncement(announcementId, content);
@@ -80,6 +81,7 @@ const editAnnouncement = async (req, res, next) => {
 */
 const deleteAnnouncement = async (req, res, next) => {
   try {
+    // TODO: check if the user is the author of the announcement
     const announcementId = req.params.id;
     await announcementServices.deleteAnnouncement(announcementId);
     res.status(204).json();
