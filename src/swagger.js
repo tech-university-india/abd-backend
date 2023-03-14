@@ -8,11 +8,16 @@ const swaggerDefinition = {
     version: '0.0.1',
     description: 'Agile Dashboard API',
   },
+  security: [
+    {
+      'bearerAuth': []
+    }
+  ]
 };
 
 const options = {
   swaggerDefinition,
-  apis: [path.join(__dirname, 'routes/api/**/*.js')],
+  apis: [path.join(__dirname, 'routes/api/**/*.js'), path.join(__dirname, 'middlewares/auth.js')],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
