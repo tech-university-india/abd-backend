@@ -16,9 +16,6 @@ const oktaJwtVerifier = new OktaJwtVerifier(OIDC);
  *       description: JWT token for authentication prefixed with `Bearer`
  *       in: header
  *       name: Authorization
- *   
- *   security:
- *     - bearerAuth: []
  */
 async function authMiddleware(req, res, next) {
   try {

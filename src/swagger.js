@@ -8,6 +8,11 @@ const swaggerDefinition = {
     version: '0.0.1',
     description: 'Agile Dashboard API',
   },
+  security: [
+    {
+      'bearerAuth': []
+    }
+  ]
 };
 
 const options = {
